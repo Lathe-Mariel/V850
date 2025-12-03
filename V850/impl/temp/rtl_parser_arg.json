@@ -2,7 +2,7 @@
  "Device" : "GW5AST-138C",
  "Files" : [
   {
-   "Path" : "C:/Git/V850/V850/V850.sv",
+   "Path" : "E:/git/V850/V850/V850.sv",
    "Type" : "verilog"
   }
  ],
@@ -10,7 +10,7 @@
 
  ],
  "LoopLimit" : 2000,
- "ResultFile" : "C:/Git/V850/V850/impl/temp/rtl_parser.result",
+ "ResultFile" : "E:/git/V850/V850/impl/temp/rtl_parser.result",
  "Top" : "V850",
  "VerilogStd" : "sysv",
  "VhdlStd" : "vhdl_93"
