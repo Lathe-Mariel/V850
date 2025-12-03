@@ -1,7 +1,11 @@
 `default_nettype none
 
 module V850 (
-input wire clk
+input wire clk,
+input wire sw0,
+input wire sw1,
+input wire rst_n,
+output wire fan
 );
 
 logic[31:0] PC;    // [31:26] is automatically filled by sign extension. value of PC[0] is always 0.
@@ -55,6 +59,30 @@ always @(posedge clk)begin
         // BSW reg2, reg3
     end else if(decord_instruction[15:6] == 10'b0000001000)begin    // 0000001000iiiiii
         // CALLT imm6
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 00011101110)begin    //rrrrr111111RRRRR wwwww00011101110
+        // CAXI [reg1], reg2, reg3
+    end else if(decord_instruction[15:14] == 2'b10 && decord_instruction[10:5] == 6'b111110)begin    // 10bbb111110RRRRR dddddddddddddddd
+        // CLR1 bit#3, disp16 [reg1]
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[31:16] == 16'b0000000011100100)begin    // rrrrr111111RRRRR 0000000011100100
+        // CLR1 reg2, [reg1]
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011001 && decord_instruction[16] == 1'b0)begin    // rrrrr111111RRRRR wwwww011001cccc0
+        // CMOV cccc, reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011000 && decord_instruction[16] == 1'b0)begin    // rrrrr111111iiiii wwwww011000cccc0
+        // CMOV cccc, imm5, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b001111)begin    // rrrrr001111RRRRR
+        // CMP reg1, reg2
+    end else if(decord_instruction[10:5] == 6'b010011)begin    // rrrrr010011iiiii
+        // CMP imm5, reg2
+    end else if(decord_instruction[31:0] == {16'b0000000101000100, 16'b0000011111100000})begin    // 0000011111100000 0000000101000100
+        // CTRET
+    end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b0000011111100000})begin    // 0000011111100000 0000000101100000
+        // DI
+    end else if(decord_instruction[15:6] == 10'b0000011001 && decord_instruction[4:0] == 5'b00000)begin    //0000011001iiiiiL LLLLLLLLLLL00000
+        // DISPOSE imm5, list12
+    end else if(decord_instruction[15:6] == 10'b0000011001)begin    // 0000011001iiiiiL LLLLLLLLLLLRRRRR (RRRR!=00000)
+        // DISPOSE imm5, list12, [reg1]    <p82>
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000000)begin    // rrrrr111111RRRRR wwwww01011000000
+        // DIV reg1, reg2, reg3
     end
 end
 
