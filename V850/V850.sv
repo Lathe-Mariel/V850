@@ -1,7 +1,7 @@
 `default_nettype none
 
-module top (
-
+module V850 (
+input wire clk
 );
 
 logic[31:0] PC;    // [31:26] is automatically filled by sign extension. value of PC[0] is always 0.
@@ -35,10 +35,26 @@ logic[31:0] decord_instruction;  // cpu instruction on decord section
 
 // decorder
 always @(posedge clk)begin
-    if(decoord_instruction[10:5] == 6'b001110)begin
+    if(decord_instruction[10:5] == 6'b001110)begin
         // ADD reg1, reg2
     end else if(decord_instruction[10:5] == 6'b010010)begin
         // ADD imm5, reg2
+    end else if(decord_instruction[10:5] == 6'b110000)begin
+        // ADDI imm16, reg1, reg2
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011101)begin
+        // ADF cccc, reg1, reg2, reg3(cccc is conditions)
+    end else if(decord_instruction[10:5] == 6'b001010)begin
+        // AND reg1, reg2
+    end else if(decord_instruction[10:5] == 6'b110110)begin
+        // ANDI imm16, reg1, reg2
+    end else if(decord_instruction[11:8] == 4'b1011)begin    // ddddd1011dddcccc
+        // Bcound disp9
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000010)begin    // rrrrr11111100000 wwwww01101000010
+        // BSH reg2, reg3
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000000)begin    // rrrrr11111100000 wwwww01101000000
+        // BSW reg2, reg3
+    end else if(decord_instruction[15:6] == 10'b0000001000)begin    // 0000001000iiiiii
+        // CALLT imm6
     end
 end
 

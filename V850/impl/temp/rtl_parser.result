@@ -1,10 +1,10 @@
 [
  {
-  "InstFile" : "E:/git/V850/V850/V850.sv",
+  "InstFile" : "C:/Git/V850/V850/V850.sv",
   "InstLine" : 3,
-  "InstName" : "top",
-  "ModuleFile" : "E:/git/V850/V850/V850.sv",
+  "InstName" : "V850",
+  "ModuleFile" : "C:/Git/V850/V850/V850.sv",
   "ModuleLine" : 3,
-  "ModuleName" : "top"
+  "ModuleName" : "V850"
  }
 ]
