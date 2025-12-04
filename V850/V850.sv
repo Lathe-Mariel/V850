@@ -105,6 +105,14 @@ always @(posedge clk)begin
         // FETRAP vector4    (vvvv != 0000)
     end else if(decord_instruction[31:0] == {16'b0000000100100000, 16'b0000011111100000})begin    // 0000011111100000 0000000100100000
         // HALT
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000110)begin    // rrrrr11111100000 wwwww01101000110
+        // HSH reg2, reg3    <p95>
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000100)begin    // rrrrr11111100000 wwwww01101000100
+        // HSW reg2, reg3
+    end else if(decord_instruction[10:6] == 5'b11110 && decord_instruction[16] == 1'b0)begin    // rrrrr11110dddddd ddddddddddddddd0
+        // JARL disp22, reg2    (rrrrr != 00000)
+    end else if(decord_instruction[15:5] == 11'b00000010111 && decord_instruction[16] == 1'b0)begin    // 00000010111RRRRR ddddddddddddddd0 DDDDDDDDDDDDDDDD
+        // JARL disp32, reg1    (RRRRR != 00000)
     end
 end
 
