@@ -97,6 +97,14 @@ always @(posedge clk)begin
         // DIVU reg1, reg2, reg3
     end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b1000011111100000})begin    // 1000011111100000 0000000101100000
         // EI    <p90>
+    end else if(decord_instruction[31:0] == {16'b0000000101001000, 16'b0000011111100000})begin    // 0000011111100000 0000000101001000
+        // EIRET
+    end else if(decord_instruction[31:0] == {16'b0000000101001010, 16'b0000011111100000})begin    // 0000011111100000 0000000101001010
+        // FERET
+    end else if(decord_instruction[15] == 0 && decord_instruction[10:0] == 11'b00001000000)begin    // 0vvvv00001000000
+        // FETRAP vector4    (vvvv != 0000)
+    end else if(decord_instruction[31:0] == {16'b0000000100100000, 16'b0000011111100000})begin    // 0000011111100000 0000000100100000
+        // HALT
     end
 end
 
