@@ -83,6 +83,20 @@ always @(posedge clk)begin
         // DISPOSE imm5, list12, [reg1]    <p82>
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000000)begin    // rrrrr111111RRRRR wwwww01011000000
         // DIV reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b000010)begin    // rrrrr000010RRRRR
+        // DIVH reg1, reg2    (RRRRR != 00000,    rrrrr != 00000)
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000000)begin    // rrrrr111111RRRRR wwwww01010000000
+        // DIVH reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin    // rrrrr111111RRRRR wwwww01010000010
+        // DIVHU reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111100)begin    // rrrrr111111RRRRR wwwww01011111100
+        // DIVQ reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111110)begin    // rrrrr111111RRRRR wwwww01011111110
+        // DIVQU reg1, reg2, reg3
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000010)begin    // rrrrr111111RRRRR wwwww01011000010
+        // DIVU reg1, reg2, reg3
+    end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b1000011111100000})begin    // 1000011111100000 0000000101100000
+        // EI    <p90>
     end
 end
 
