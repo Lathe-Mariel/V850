@@ -6,5 +6,13 @@
   "ModuleFile" : "C:/Git/V850/V850/V850.sv",
   "ModuleLine" : 3,
   "ModuleName" : "V850"
+ },
+ {
+  "InstFile" : "C:/Git/V850/V850/src/adder.v",
+  "InstLine" : 1,
+  "InstName" : "adder",
+  "ModuleFile" : "C:/Git/V850/V850/src/adder.v",
+  "ModuleLine" : 1,
+  "ModuleName" : "adder"
  }
 ]

@@ -4,6 +4,10 @@
   {
    "Path" : "C:/Git/V850/V850/V850.sv",
    "Type" : "verilog"
+  },
+  {
+   "Path" : "C:/Git/V850/V850/src/adder.v",
+   "Type" : "verilog"
   }
  ],
  "IncludePath" : [
