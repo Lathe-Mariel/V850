@@ -18,7 +18,7 @@ logic[31:0] EIPSW;  // status save register when EI level exception received
 logic[31:0] FEPC;   // status save register when FE level exception received
 logic[31:0] FEPSW;  // status save register when FE level exception received
 logic[31:0] ECR;    // factor of exception
-logic[31:0] PSW;    // program status word
+logic[31:0] PSW;    // program status word (18:NPV, 17:DMP, 16:IMP, 7:NP, 6:EP, 5:ID, 4:SAT, 3:CY, 2:OV, 1:S, 0:Z)
 logic[31:0] SCCFG;  // action setting for SYSCALL
 logic[31:0] SCBP;   //SYSCALL base pointer
 logic[31:0] EIIC;   // factor of EI level exception
@@ -37,20 +37,28 @@ logic[31:0] BSEL;   // selection of register bank
 
 logic[31:0] decord_instruction;  // cpu instruction on decord section
 
+logic reg1, reg2;
+logic imm5;
+
+ALU inst_ALU(
+    .GR(GR),
+    .PSW(PSW),
+    .reg1(reg1),
+    .reg2(reg2),
+    .imm5(imm5),
+    .PSW(PSW)
+);
+
 // decorder
 always @(posedge clk)begin
-    if(decord_instruction[10:5] == 6'b001110)begin
+    if(decord_instruction[10:5] == 6'b001110)begin   // rrrrr001110RRRRR
         // ADD reg1, reg2
-        GR[decord_instruction[4:0]] <= GR[decord_instruction[4:0]] + GR[decord_instruction[15:11]];
-/*
-        ADD(
-          clk,
-          GR[decord_instruction[4:0]],
-          GR[decord_instruction[15:11]]
-        );*/
-
-    end else if(decord_instruction[10:5] == 6'b010010)begin
+        {PSW[3], GR[decord_instruction[15:11]]} <= GR[decord_instruction[15:11]] + GR[decord_instruction[4:0]];
+         
+    end else if(decord_instruction[10:5] == 6'b010010)begin    // rrrrr010010iiiii
         // ADD imm5, reg2
+        GR[decord_instruction[15:11]] <= GR[decord_instruction[15:11]] + {{27{decord_instruction[4]}}, decord_instruction[4:0]};
+
     end else if(decord_instruction[10:5] == 6'b110000)begin
         // ADDI imm16, reg1, reg2
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011101)begin
