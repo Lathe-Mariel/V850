@@ -37,18 +37,23 @@ logic[31:0] BSEL;   // selection of register bank
 
 
 
-logic reg1, reg2;
+logic[31:0] reg1, reg2;
 //logic imm5;
-logic destination;
+logic[31:0] PSW;
+logic[4:0] destination;
+logic increment_bit;
 
 logic[31:0] GR[31:0];
 
 Decorder inst_Decorder(
     .reg1_o(reg1),
     .reg2_o(reg2),
+    .increment_bit_o(increment_bit),
     .destination_o(destination),
     .clk(clk),
-    .GR(GR)
+    .PC(PC),
+    .GR(GR),
+    .PSW(PSW)
 );
 
 Executer inst_Executer(
@@ -56,7 +61,9 @@ Executer inst_Executer(
     .destination_i(destination),
     .reg1_i(reg1),
     .reg2_i(reg2),
-    .GR(GR)
+    .increment_bit_i(increment_bit),
+    .GR(GR),
+    .PSW(PSW)
 );
 
 
