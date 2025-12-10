@@ -186,6 +186,7 @@ always @(posedge clk)begin
             circuit_sel_o <= 5'b00111;
     end else if(decord_instruction[15:6] == 10'b0000001000)begin                                                    // 0000001000iiiiii
         // CALLT imm6
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 00011101110)begin             //rrrrr111111RRRRR wwwww00011101110
         // CAXI [reg1], reg2, reg3
     end else if(decord_instruction[15:14] == 2'b10 && decord_instruction[10:5] == 6'b111110)begin                   // 10bbb111110RRRRR dddddddddddddddd
@@ -306,10 +307,18 @@ always @(posedge clk)begin
         // NOT1 bit#3, disp16 [reg1]
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[31:16] == 16'b0000000011100010)begin    // rrrrr111111RRRRR 0000000011100010
         // NOT1 reg2, [reg1]    <p118>
-    end else if(decord_instruction[10:5] == 6'b001000)begin                                                         // rrrrr001000RRRRR
+    end else if(decord_instruction[10:5] == 6'b001000)begin                                                         // rrrrr001000RRRRR    Format I
         // OR reg1, reg2
-    end else if(decord_instruction[10:5] == 6'b110100)begin                                                         // rrrrr110100RRRRR iiiiiiiiiiiiiiii
+        reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
+        reg2_o <= GR[decord_instruction[15:11]];               // reg2 value
+        destination_o <= decord_instruction[15:11];            // destination regster number
+        circuit_sel_o <= 5'b0011;
+    end else if(decord_instruction[10:5] == 6'b110100)begin                                                         // rrrrr110100RRRRR iiiiiiiiiiiiiiii    Format VI
         // ORI imm16, reg1, reg2
+        reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
+        reg2_o <= {{16{0}},decord_instruction[31:16]};         // immediate16 with 0 extension
+        destination_o <= decord_instruction[15:11];            // destination regster number
+        circuit_sel_o <= 5'b0011;
     end else if(decord_instruction[15:6] == 10'b0000011110 && decord_instruction[20:16] == 5'b00001)begin           // 0000011110iiiiiL LLLLLLLLLLL00001
         // PREPARE list12, imm5
     end else if(decord_instruction[15:6] == 10'b0000011110 && decord_instruction[18:16] == 3'b011)begin             // 0000011110iiiiiL LLLLLLLLLLLff011 (imm16 / imm32)
