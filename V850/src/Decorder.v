@@ -2,6 +2,7 @@ module Decorder(
 output logic[31:0] reg1_o, reg2_o, reg3_o,
 output logic increment_bit_o,
 output logic[4:0] destination_o,    // number of destination register
+output logic[4:0] circuit_sel_o,
 input clk,
 input logic[31:0] PC,
 input logic[31:0] GR[31:0],
@@ -12,91 +13,177 @@ logic[31:0] decord_instruction;  // cpu instruction on decord section
 
 // decorder
 always @(posedge clk)begin
-    if(decord_instruction[10:5] == 6'b001110)begin   // rrrrr001110RRRRR
+    if(decord_instruction[10:5] == 6'b001110)begin                          // rrrrr001110RRRRR
         // ADD reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= GR[decord_instruction[15:10]];
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
-    end else if(decord_instruction[10:5] == 6'b010010)begin    // rrrrr010010iiiii
+        circuit_sel_o <= 5'b1;
+    end else if(decord_instruction[10:5] == 6'b010010)begin                  // rrrrr010010iiiii
         // ADD imm5, reg2
         reg1_o <= {{27{decord_instruction[4]}}, decord_instruction[4:0]};    // immediate5 value (with sign extension)
         reg2_o <= GR[decord_instruction[15:10]];
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
-
-    end else if(decord_instruction[10:5] == 6'b110000)begin    // rrrrr110000RRRRR iiiiiiiiiiiiiiii
+        circuit_sel_o <= 5'b1;
+    end else if(decord_instruction[10:5] == 6'b110000)begin                  // rrrrr110000RRRRR iiiiiiiiiiiiiiii
         // ADDI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];
-        reg2_o <= {{16{decord_instruction[31]}}, decord_instruction[31:16]};    // immediate16 value (with sign extension)
+        reg2_o <= {{16{decord_instruction[31]}}, decord_instruction[31:16]}; // immediate16 value (with sign extension)
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
+        circuit_sel_o <= 5'b1;
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011101)begin    //rrrrr111111RRRRR wwwww011101cccc0
         // ADF cccc, reg1, reg2, reg3(cccc is conditions)    (cccc != 1101)
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= GR[decord_instruction[15:11]];
-        destination_o <= decord_instruction[31:27];    // destination regster number
-        if(decord_instruction[20:17] == 4'b0000)begin    // cccc==0000
+        destination_o <= decord_instruction[31:27];                          // destination regster number
+        circuit_sel_o <= 5'b1;
+        if(decord_instruction[20:17] == 4'b0000)begin                        // cccc==0000
             if(PSW[2] == 1'b1)begin                      // V(OV==1)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b1000)begin    // cccc==1000
-            if(PSW[2] == 1'b0)begin                      // NV(OV==0)
+            if(PSW[2] == 1'b0)begin                               // NV(OV==0)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b0001)begin    // cccc==0001
-            if(PSW[3] == 1'b1)begin                      // C/L(CY==1)
+            if(PSW[3] == 1'b1)begin                               // C/L(CY==1)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b1001)begin    // cccc==1001
-            if(PSW[3] == 1'b0)begin                      // NC/NL(CY==0)
+            if(PSW[3] == 1'b0)begin                               // NC/NL(CY==0)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b0010)begin    // cccc==0010
-            if(PSW[0] == 1'b1)begin                      // Z(Z==1)
+            if(PSW[0] == 1'b1)begin                               // Z(Z==1)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b1010)begin    // cccc==1010
-            if(PSW[0] == 1'b0)begin                      // NZ(Z==0)
+            if(PSW[0] == 1'b0)begin                               // NZ(Z==0)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b0011)begin    // cccc==0011
-            if(PSW[3] == 1'b1 || PSW[0] == 1'b1)begin                      // NH(CY==1 or Z==1)
+            if(PSW[3] == 1'b1 || PSW[0] == 1'b1)begin             // NH(CY==1 or Z==1)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end else if(decord_instruction[20:17] == 4'b1011)begin    // cccc==1011
-            if(PSW[3] == 1'b0 || PSW[0] == 1'b0)begin                      // H(CY==0 or Z==0)
+            if(PSW[3] == 1'b0 || PSW[0] == 1'b0)begin             // H(CY==0 or Z==0)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b0100)begin    // cccc==0100
+            if(PSW[1] == 1'b1)begin                               // S/N(S==1)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b1100)begin    // cccc==1100
+            if(PSW[1] == 1'b0)begin                               // NS/P(S==0)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b0101)begin    // cccc==0101
+                      // T(always)
+                increment_bit_o <= 1'b1;
+        end else if(decord_instruction[20:17] == 4'b0110)begin    // cccc==0110
+            if(PSW[1] ^ PSW[2])begin                              // LT((S xor OV)==1)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b1110)begin    // cccc==1110
+            if(!(PSW[1] ^ PSW[2]))begin                           // GE((S xor OV)==0)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b0111)begin    // cccc==0111
+            if((PSW[1] ^ PSW[2]) || PSW[0])begin                  // LT((S xor OV)or Z==1)
+                increment_bit_o <= 1'b1;
+            end else begin
+                increment_bit_o <= 1'b0;
+            end
+        end else if(decord_instruction[20:17] == 4'b1111)begin    // cccc==1111
+            if(!((PSW[1] ^ PSW[2]) || PSW[0]))begin               // GT((S xor OV)or Z==0)
                 increment_bit_o <= 1'b1;
             end else begin
                 increment_bit_o <= 1'b0;
             end
         end
-
-    end else if(decord_instruction[10:5] == 6'b001010)begin
+    end else if(decord_instruction[10:5] == 6'b001010)begin                  //rrrrr001010RRRRR    Format I
         // AND reg1, reg2
-
-    end else if(decord_instruction[10:5] == 6'b110110)begin
+        reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
+        reg2_o <= GR[decord_instruction[15:11]];               // reg2 value
+        destination_o <= decord_instruction[15:11];            // destination regster number
+        circuit_sel_o <= 5'b0010;
+    end else if(decord_instruction[10:5] == 6'b110110)begin    // rrrrr110110RRRRR iiiiiiiiiiiiiiii     Format VI
         // ANDI imm16, reg1, reg2
-    end else if(decord_instruction[11:8] == 4'b1011)begin                                                           // ddddd1011dddcccc
-        // Bcound disp9
-    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000010)begin   // rrrrr11111100000 wwwww01101000010
+        reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
+        reg2_o <= {{16{0}},GR[decord_instruction[31:16]]};     // immediate16 with zero extension
+        destination_o <= decord_instruction[15:11];            // destination regster number
+        circuit_sel_o <= 5'b0010;
+    end else if(decord_instruction[11:8] == 4'b1011)begin                              // ddddd1011dddcccc    Format III
+        // Bcond disp9
+        if(
+            decord_instruction[3:0] == 4'b1110 && !(PSW[1] ^ PSW[2]) ||                // (S xor OV) ==0           Greater than or equal signed
+            decord_instruction[3:0] == 4'b1111 && !((PSW[1] ^ PSW[2]) || PSW[0]) ||    // ((S xor OV) or Z) ==0    Greater than signed
+            decord_instruction[3:0] == 4'b0111 && ((PSW[1] ^ PSW[2]) || PSW[0]) ||     // ((S xor OV) or Z) ==1    Less than or equal signed
+            decord_instruction[3:0] == 4'b0110 && (PSW[1] ^ PSW[2]) ||                 // ((S xor OV) ==1          Less than signed
+
+            decord_instruction[3:0] == 4'b1011 && !(PSW[3] || PSW[0]) ||               // ((CY or Z) ==0           Higher(Greater than)
+            decord_instruction[3:0] == 4'b0001 && PSW[3] ||                            // CY ==1                   Lower(Less than)
+            decord_instruction[3:0] == 4'b0011 && (PSW[3] || PSW[0]) ||                // (CY or Z) ==1            Not higher(Less than or equal)
+            decord_instruction[3:0] == 4'b1001 && !PSW[3] ||                           // CY ==0                   Not lower(Greater than or equal)
+
+            decord_instruction[3:0] == 4'b0010 && PSW[0] ||                            // Z ==1                    Equal
+            decord_instruction[3:0] == 4'b1010 && !PSW[0] ||                           // Z ==0                    Not equal
+
+//          decord_instruction[3:0] == 4'b0001 && PSW[3] ||                            // CY ==1                   Carry
+//          decord_instruction[3:0] == 4'b1010 && !PSW[0] ||                           // Z ==0                    False
+            decord_instruction[3:0] == 4'b0100 && PSW[1] ||                            // S ==1                    Negative
+//          decord_instruction[3:0] == 4'b1001 && !PSW[3] ||                           // Z ==0                    No carry
+            decord_instruction[3:0] == 4'b1000 && !PSW[2] ||                           // OV ==0                   No overflow
+//          decord_instruction[3:0] == 4'b1010 && !PSW[0] ||                           // Z ==0                    Not zero
+            decord_instruction[3:0] == 4'b1100 && !PSW[1] ||                           // S ==0                    Positive
+            decord_instruction[3:0] == 4'b0101 ||                                      //                          Always
+            decord_instruction[3:0] == 4'b1101 && PSW[4] ||                            // SAT ==1                  Saturated
+//          decord_instruction[3:0] == 4'b0010 PSW[0] ||                               // Z ==1                    True
+            decord_instruction[3:0] == 4'b0000 && PSW[2]                               // OV =1                    Overflow
+//          decord_instruction[3:0] == 4'b0010 PSW[0] ||                               // Z ==1                    Zero
+        )begin
+            reg1_o <= {{23{decord_instruction[15]}}, decord_instruction[15:11], decord_instruction[6:4], 0};
+            reg2_o <= PC;
+            destination_o <= 5'b00000;
+            circuit_sel_o <= 5'b00001;
+        end
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000010)begin   // rrrrr11111100000 wwwww01101000010    Format XII
         // BSH reg2, reg3
-    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000000)begin   // rrrrr11111100000 wwwww01101000000
+            reg2_o <= {GR[decord_instruction[15:11]][23:16], GR[decord_instruction[15:11]][31:24], GR[decord_instruction[15:11]][7:0], GR[decord_instruction[15:11]][15:8]};
+            destination_o <= decord_instruction[31:27];    // reg3
+            circuit_sel_o <= 5'b00110;
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000000)begin   // rrrrr11111100000 wwwww01101000000    Format XII
         // BSW reg2, reg3
+            reg2_o <= {GR[decord_instruction[15:11]][7:0], GR[decord_instruction[15:11]][15:8], GR[decord_instruction[15:11]][23:16], GR[decord_instruction[15:11]][31:24]};
+            destination_o <= decord_instruction[31:27];    // reg3
+            circuit_sel_o <= 5'b00111;
     end else if(decord_instruction[15:6] == 10'b0000001000)begin                                                    // 0000001000iiiiii
         // CALLT imm6
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 00011101110)begin             //rrrrr111111RRRRR wwwww00011101110
@@ -117,7 +204,7 @@ always @(posedge clk)begin
         // CTRET
     end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b0000011111100000})begin                      // 0000011111100000 0000000101100000
         // DI
-    end else if(decord_instruction[15:6] == 10'b0000011001 && decord_instruction[4:0] == 5'b00000)begin             //0000011001iiiiiL LLLLLLLLLLL00000
+    end else if(decord_instruction[15:6] == 10'b0000011001 && decord_instruction[4:0] == 5'b00000)begin             // 0000011001iiiiiL LLLLLLLLLLL00000
         // DISPOSE imm5, list12
     end else if(decord_instruction[15:6] == 10'b0000011001)begin                                                    // 0000011001iiiiiL LLLLLLLLLLLRRRRR (RRRR!=00000)
         // DISPOSE imm5, list12, [reg1]    <p82>

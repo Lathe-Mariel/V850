@@ -36,14 +36,18 @@ logic[31:0] DBWR;   // working register for DB level exception
 logic[31:0] BSEL;   // selection of register bank
 
 
-
 logic[31:0] reg1, reg2;
 //logic imm5;
+logic[4:0] circuit_sel;
+
 logic[31:0] PSW;
-logic[4:0] destination;
+logic[4:0] destination;    // GR[0] is always 0, and then destination is set up 0, PC is pointed as a destination register.
 logic increment_bit;
 
+
 logic[31:0] GR[31:0];
+
+//assign GR[0] = 32'b0;
 
 Decorder inst_Decorder(
     .reg1_o(reg1),
@@ -53,7 +57,8 @@ Decorder inst_Decorder(
     .clk(clk),
     .PC(PC),
     .GR(GR),
-    .PSW(PSW)
+    .PSW(PSW),
+    .circuit_sel_o(circuit_sel)
 );
 
 Executer inst_Executer(
@@ -63,7 +68,9 @@ Executer inst_Executer(
     .reg2_i(reg2),
     .increment_bit_i(increment_bit),
     .GR(GR),
-    .PSW(PSW)
+    .PSW(PSW),
+    .circuit_sel_i(circuit_sel),
+    .PC(PC)
 );
 
 
