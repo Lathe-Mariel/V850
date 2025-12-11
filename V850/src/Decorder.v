@@ -272,12 +272,29 @@ always @(posedge clk)begin
         // DISPOSE imm5, list12
     end else if(decord_instruction[15:6] == 10'b0000011001)begin                                                    // 0000011001iiiiiL LLLLLLLLLLLRRRRR (RRRR!=00000)
         // DISPOSE imm5, list12, [reg1]    <p82>
-    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000000)begin         // rrrrr111111RRRRR wwwww01011000000
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000000)begin         // rrrrr111111RRRRR wwwww01011000000    Format XI
         // DIV reg1, reg2, reg3
-    end else if(decord_instruction[10:5] == 6'b000010)begin                                                         // rrrrr000010RRRRR
+        reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg3_o <= decord_instruction[31:27];        // reg3 number
+        destination_o <= decord_instruction[15:11]; // reg2 number
+        circuit_sel_o <= 5'b01000;
+
+    end else if(decord_instruction[10:5] == 6'b000010)begin                                                         // rrrrr000010RRRRR    Format I
         // DIVH reg1, reg2    (RRRRR != 00000,    rrrrr != 00000)
-    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000000)begin         // rrrrr111111RRRRR wwwww01010000000
+        reg1_o <= {{16{GR[decord_instruction[4:0]][31]}}, GR[decord_instruction[4:0]][15:0]};
+        reg2_o <= GR[decord_instruction[15:11]];
+        destination_o <= decord_instruction[15:11]; // reg2 number
+        circuit_sel_o <= 5'b01000;
+
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000000)begin         // rrrrr111111RRRRR wwwww01010000000    Format XI
         // DIVH reg1, reg2, reg3
+        reg1_o <= {{16{GR[decord_instruction[4:0]][31]}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side)
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg3_o <= decord_instruction[31:27];        // reg3 number
+        destination_o <= decord_instruction[15:11]; // reg2 number
+        circuit_sel_o <= 5'b01000;
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin         // rrrrr111111RRRRR wwwww01010000010
         // DIVHU reg1, reg2, reg3
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111100)begin         // rrrrr111111RRRRR wwwww01011111100

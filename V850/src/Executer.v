@@ -4,6 +4,7 @@ input logic clk,
 input logic[4:0] destination_i,    // number of destination register
 input logic[31:0] reg1_i,
 input logic[31:0] reg2_i,
+input logic[31:0] reg3_i,          // ★is this signal always 5 bits
 input logic increment_bit_i,
 //input logic[4:0] imm5_i,
 output logic[31:0] GR[31:0],
@@ -52,6 +53,14 @@ always_ff @(posedge clk)begin
             PSW[3] <= (reg2_i[15:8]==8'b0 || reg2_i[7:0]==8'b0);
             PSW[0] <= (reg2_i[15:0]==16'b0);
         end
+
+//★符号
+    end else if(circuit_sel_i == 5'b01000)begin                  // DIV
+        GR[destination_i] <= reg2_i / reg1_i;
+        GR[reg3_i] <= reg2_i % reg1_i;            // reg3_i is register number
+        PSW[2] <= ((reg2_i == 32'h80000000 && reg1_i == 32'hFFFFFFFF) || reg1_i == 0)?1:0;    //OV flag
+        PSW[1] <= (reg2_i / reg1_i) >> 31;        // sign flag
+        PSW[0] <= (reg2_i / reg1_i) == 1'b0;        // zero flag
     end
 end
 

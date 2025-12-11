@@ -37,6 +37,7 @@ logic[31:0] BSEL;   // selection of register bank
 
 
 logic[31:0] reg1, reg2;
+logic[31:0] reg3;
 //logic imm5;
 logic[4:0] circuit_sel;
 
@@ -52,6 +53,7 @@ logic[31:0] GR[31:0];
 Decorder inst_Decorder(
     .reg1_o(reg1),
     .reg2_o(reg2),
+    .reg3_o(reg3),
     .increment_bit_o(increment_bit),
     .destination_o(destination),
     .clk(clk),
@@ -66,6 +68,7 @@ Executer inst_Executer(
     .destination_i(destination),
     .reg1_i(reg1),
     .reg2_i(reg2),
+    .reg3_i(reg3),
     .increment_bit_i(increment_bit),
     .GR(GR),
     .PSW(PSW),
