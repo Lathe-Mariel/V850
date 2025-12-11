@@ -16,7 +16,7 @@ input logic[4:0] circuit_sel_i    //circuit select(5bits temporarily)
 //logic[31:0] PSW;    // program status word (18:NPV, 17:DMP, 16:IMP, 7:NP, 6:EP, 5:ID, 4:SAT, 3:CY, 2:OV, 1:S, 0:Z)
 
 always_ff @(posedge clk)begin
-    if(circuit_sel_i == 5'b00001)begin    // ADD,ADDI,ADF,Bcond
+    if(circuit_sel_i == 5'b00001)begin                           // ADD,ADDI,ADF,Bcond
         if(destination_i == 5'b00000)begin
             PC <= reg2_i + reg1_i;
         end else begin
@@ -25,17 +25,23 @@ always_ff @(posedge clk)begin
         PSW[2] <= (reg1_i[31] & reg2_i[31] & !((reg1_i + reg2_i + increment_bit_i) >> 31)) | (!reg1_i[31] & !reg2_i[31] & ((reg1_i + reg2_i + increment_bit_i) >> 31));  // OF = A・B・_C + _A・_B・C
         PSW[1] <= (reg2_i + reg1_i + increment_bit_i) >> 31;
         PSW[0] <= (reg2_i + reg1_i + increment_bit_i)==0?1:0;    // zero flag
-    end else if(circuit_sel_i == 5'b00010)begin   // AND,ANDI
+    end else if(circuit_sel_i == 5'b00000)begin                  // CMP,SUB
+        GR[destination_i] <= {1'b0, reg2_i} + {1'b0, reg1_i};
+        PSW[3] <= ~(({1'b0, reg2_i} + {1'b0, reg1_i}) >> 31);    // borrow flag(carry flag)
+        PSW[2] <= (reg1_i[31] & reg2_i[31] & !((reg1_i + reg2_i) >> 31)) | (!reg1_i[31] & !reg2_i[31] & ((reg1_i + reg2_i) >> 31));  // OF = A・B・_C + _A・_B・C
+        PSW[1] <= (reg2_i + reg1_i + increment_bit_i) >> 31;
+        PSW[0] <= (reg2_i + reg1_i + increment_bit_i)==0?1:0;    // zero flag
+    end else if(circuit_sel_i == 5'b00010)begin                  // AND,ANDI
         GR[destination_i] <= reg2_i & reg1_i;
-        PSW[2] <= 1'b0;                        // OV flag
+        PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2_i & reg1_i) >> 31;
-        PSW[0] <= (reg2_i + reg1_i)==0?1:0;    // zero flag
-    end else if(circuit_sel_i == 5'b00011)begin    // OR
+        PSW[0] <= (reg2_i + reg1_i)==0?1:0;                      // zero flag
+    end else if(circuit_sel_i == 5'b00011)begin                  // OR
         GR[destination_i] <= reg2_i | reg1_i;
-        PSW[2] <= 1'b0;                        // OV flag
+        PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2_i & reg1_i) >> 31;
-        PSW[0] <= (reg2_i + reg1_i)==0?1:0;    // zero flag
-    end else if(circuit_sel_i[4:1] == 4'b0011)begin    // BSH,BSW
+        PSW[0] <= (reg2_i + reg1_i)==0?1:0;                      // zero flag
+    end else if(circuit_sel_i[4:1] == 4'b0011)begin              // BSH,BSW
         GR[destination_i] <= reg2_i;
         PSW[2] <= 1'b0;
         PSW[1] <= reg2_i[31];
