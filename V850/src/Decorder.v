@@ -11,6 +11,37 @@ input logic[31:0] PSW
 
 logic[31:0] decord_instruction;  // cpu instruction on decord section
 
+function condition4(
+    input logic[3:0] cond_i
+);
+    case(cond_i)
+        4'b1110:condition4= !(PSW[1] ^ PSW[2]);                // (S xor OV) ==0           Greater than or equal signed
+        4'b1111:condition4= !((PSW[1] ^ PSW[2]) || PSW[0]);    // ((S xor OV) or Z) ==0    Greater than signed
+        4'b0111:condition4= ((PSW[1] ^ PSW[2]) || PSW[0]);     // ((S xor OV) or Z) ==1    Less than or equal signed
+        4'b0110:condition4= (PSW[1] ^ PSW[2]);                 // ((S xor OV) ==1          Less than signed
+        4'b1011:condition4= !(PSW[3] || PSW[0]);               // ((CY or Z) ==0           Higher(Greater than)
+        4'b0001:condition4= PSW[3];                            // CY ==1                   Lower(Less than)
+        4'b0011:condition4= (PSW[3] || PSW[0]);                // (CY or Z) ==1            Not higher(Less than or equal)
+        4'b1001:condition4= !PSW[3];                           // CY ==0                   Not lower(Greater than or equal)
+        4'b0010:condition4= PSW[0];                            // Z ==1                    Equal
+        4'b1010:condition4= !PSW[0];                           // Z ==0                    Not equal
+
+//      4'b0001:condition4= PSW[3];                            // CY ==1                   Carry
+//      4'b1010:condition4= !PSW[0];                           // Z ==0                    False
+        4'b0100:condition4= PSW[1];                            // S ==1                    Negative
+//      4'b1001:condition4= !PSW[3];                           // Z ==0                    No carry
+        4'b1000:condition4= !PSW[2];                           // OV ==0                   No overflow
+//      4'b1010:condition4= !PSW[0];                           // Z ==0                    Not zero
+        4'b1100:condition4= !PSW[1];                           // S ==0                    Positive
+        4'b0101:condition4= 1'b1;                              //                          Always
+        4'b1101:condition4= PSW[4];                            // SAT ==1                  Saturated
+//      4'b0010:condition4= PSW[0];                            // Z ==1                    True
+        4'b0000:condition4= PSW[2];                            // OV =1                    Overflow
+//      4'b0010:condition4= PSW[0];                            // Z ==1                    Zero
+    endcase
+endfunction
+
+
 // decorder
 always @(posedge clk)begin
     if(decord_instruction[10:5] == 6'b001110)begin                          // rrrrr001110RRRRR
