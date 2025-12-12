@@ -54,13 +54,13 @@ always_ff @(posedge clk)begin
             PSW[0] <= (reg2_i[15:0]==16'b0);
         end
 
-//★符号
+//★符号付きの除算に問題ないか，回路を確認
     end else if(circuit_sel_i == 5'b01000)begin                  // DIV
         GR[destination_i] <= reg2_i / reg1_i;
-        GR[reg3_i] <= reg2_i % reg1_i;            // reg3_i is register number
-        PSW[2] <= ((reg2_i == 32'h80000000 && reg1_i == 32'hFFFFFFFF) || reg1_i == 0)?1:0;    //OV flag
-        PSW[1] <= (reg2_i / reg1_i) >> 31;        // sign flag
-        PSW[0] <= (reg2_i / reg1_i) == 1'b0;        // zero flag
+        GR[reg3_i] <= reg2_i % reg1_i;                                                        // reg3_i is register number
+        PSW[2] <= ((reg2_i == 32'h80000000 && reg1_i == 32'hFFFFFFFF) || reg1_i == 0)?1:0;    // OV flag
+        PSW[1] <= (reg2_i / reg1_i) >> 31;                                                    // sign flag
+        PSW[0] <= (reg2_i / reg1_i) == 1'b0;                                                  // zero flag
     end
 end
 

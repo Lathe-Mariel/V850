@@ -289,14 +289,20 @@ always @(posedge clk)begin
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000000)begin         // rrrrr111111RRRRR wwwww01010000000    Format XI
         // DIVH reg1, reg2, reg3
-        reg1_o <= {{16{GR[decord_instruction[4:0]][31]}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side)
+        reg1_o <= {{16{GR[decord_instruction[4:0]][31]}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side) with signed extended
         reg2_o <= GR[decord_instruction[15:11]];
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
         circuit_sel_o <= 5'b01000;
 
-    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin         // rrrrr111111RRRRR wwwww01010000010
+    end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin         // rrrrr111111RRRRR wwwww01010000010    Format XI
         // DIVHU reg1, reg2, reg3
+        reg1_o <= {{16{0}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side) with unsigned extended
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg3_o <= decord_instruction[31:27];        // reg3 number
+        destination_o <= decord_instruction[15:11]; // reg2 number
+        circuit_sel_o <= 5'b01000;
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111100)begin         // rrrrr111111RRRRR wwwww01011111100
         // DIVQ reg1, reg2, reg3
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111110)begin         // rrrrr111111RRRRR wwwww01011111110
