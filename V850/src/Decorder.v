@@ -331,15 +331,19 @@ always @(posedge clk)begin
         // FETRAP vector4    (vvvv != 0000)
     end else if(decord_instruction[31:0] == {16'b0000000100100000, 16'b0000011111100000})begin                      // 0000011111100000 0000000100100000
         // HALT
-    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000110)begin   // rrrrr11111100000 wwwww01101000110
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000110)begin   // rrrrr11111100000 wwwww01101000110    Format XII
         // HSH reg2, reg3    <p95>
         reg2_o <= GR[decord_instruction[15:11]];
         reg1_o <= 16'b0;
         destination_o <= decord_instruction[31:27];    // reg3 number
         circuit_sel_o <= 5'b10000;
 
-    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000100)begin   // rrrrr11111100000 wwwww01101000100
+    end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000100)begin   // rrrrr11111100000 wwwww01101000100    Format XII
         // HSW reg2, reg3
+        reg2_o <= {GR[decord_instruction[15:11]][15:0], GR[decord_instruction[15:11]][31:16]};           // reg2
+        destination_o <= decord_instruction[31:27];        // reg3 number
+        circuit_sel_o <= 5'b10001;
+       
     end else if(decord_instruction[10:6] == 5'b11110 && decord_instruction[16] == 1'b0)begin                        // rrrrr11110dddddd ddddddddddddddd0
         // JARL disp22, reg2    (rrrrr != 00000)
     end else if(decord_instruction[15:5] == 11'b00000010111 && decord_instruction[16] == 1'b0)begin                 // 00000010111RRRRR ddddddddddddddd0 DDDDDDDDDDDDDDDD

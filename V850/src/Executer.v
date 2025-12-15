@@ -61,13 +61,18 @@ always_ff @(posedge clk)begin
         PSW[2] <= ((reg2_i == 32'h80000000 && reg1_i == 32'hFFFFFFFF) || reg1_i == 0)?1:0;    // OV flag
         PSW[1] <= (reg2_i / reg1_i) >> 31;                                                    // sign flag
         PSW[0] <= (reg2_i / reg1_i) == 1'b0;                                                  // zero flag
-    end else if(circuit_sel_i == 5'b10000)begin                  // HSH
-        GR[destination_i] <= reg2_i[15:0];
-        PSW[3] <= GR[destination_i] == 0?1:0;
+
+    end else if(circuit_sel_i == 5'b10000)begin                  // HSH,HSW
+        GR[destination_i] <= reg2_i;
+        if(circuit_sel_i[0] ==1'b1)begin    // HSW
+          PSW[3] <= (reg2_i[15:0] == 0 || reg2_i[31:16] == 0)?1:0;
+          PSW[0] <= reg2_i == 0?1:0;
+        end else begin                      // HSH
+          PSW[3] <= reg2_i[15:0] == 0?1:0;
+          PSW[0] <= reg2_i[15:0] == 0?1:0;
+        end
         PSW[2] <= 1'b0;
         PSW[1] <= reg2_i[31];
-        PSW[0] <= GR[destination_i] == 0?1:0;
-
     end
 end
 
