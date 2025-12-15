@@ -39,7 +39,7 @@ logic[31:0] BSEL;   // selection of register bank
 logic[31:0] reg1, reg2;
 logic[31:0] reg3;
 //logic imm5;
-logic[4:0] circuit_sel;
+logic[9:0] circuit_sel;
 
 logic[31:0] PSW;
 logic[4:0] destination;    // GR[0] is always 0, and then destination is set up 0, PC is pointed as a destination register.

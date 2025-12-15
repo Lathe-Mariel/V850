@@ -2,14 +2,14 @@ module Decorder(
 output logic[31:0] reg1_o, reg2_o, reg3_o,
 output logic increment_bit_o,
 output logic[4:0] destination_o,    // number of destination register
-output logic[4:0] circuit_sel_o,
+output logic[9:0] circuit_sel_o,
 input clk,
 input logic[31:0] PC,
 input logic[31:0] GR[31:0],
 input logic[31:0] PSW
 );
 
-logic[31:0] decord_instruction;  // cpu instruction on decord section
+logic[63:0] decord_instruction;  // cpu instruction on decord section
 
 function condition4(
     input logic[3:0] cond_i
@@ -50,27 +50,27 @@ always @(posedge clk)begin
         reg2_o <= GR[decord_instruction[15:10]];
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b010010)begin                  // rrrrr010010iiiii
         // ADD imm5, reg2
         reg1_o <= {{27{decord_instruction[4]}}, decord_instruction[4:0]};    // immediate5 value (with sign extension)
         reg2_o <= GR[decord_instruction[15:10]];
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b110000)begin                  // rrrrr110000RRRRR iiiiiiiiiiiiiiii
         // ADDI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= {{16{decord_instruction[31]}}, decord_instruction[31:16]}; // immediate16 value (with sign extension)
         increment_bit_o <= 1'b0;
         destination_o <= decord_instruction[15:10];
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011101)begin    //rrrrr111111RRRRR wwwww011101cccc0
         // ADF cccc, reg1, reg2, reg3(cccc is conditions)    (cccc != 1101)
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= GR[decord_instruction[15:11]];
         destination_o <= decord_instruction[31:27];                          // destination regster number
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
         increment_bit_o <= condition4(decord_instruction[20:17])?1'b1:1'b0;
 /*
         if(decord_instruction[20:17] == 4'b0000)begin                        // cccc==0000
@@ -167,13 +167,13 @@ always @(posedge clk)begin
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
         reg2_o <= GR[decord_instruction[15:11]];               // reg2 value
         destination_o <= decord_instruction[15:11];            // destination regster number
-        circuit_sel_o <= 5'b00010;
+        circuit_sel_o <= 10'b0_0010;
     end else if(decord_instruction[10:5] == 6'b110110)begin    // rrrrr110110RRRRR iiiiiiiiiiiiiiii     Format VI
         // ANDI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
         reg2_o <= {{16{0}},GR[decord_instruction[31:16]]};     // immediate16 with zero extension
         destination_o <= decord_instruction[15:11];            // destination regster number
-        circuit_sel_o <= 5'b00010;
+        circuit_sel_o <= 10'b0_0010;
     end else if(decord_instruction[11:8] == 4'b1011)begin                              // ddddd1011dddcccc    Format III
         // Bcond disp9
         if(condition4(decord_instruction[3:0]))begin
@@ -209,18 +209,18 @@ always @(posedge clk)begin
             reg2_o <= PC;
             destination_o <= 5'b00000;
 //          increment_bit_o <= 1'b0;    // when destination_o is 5'b00000(PC) , increment_bit_o doesn't matter
-            circuit_sel_o <= 5'b00001;
+            circuit_sel_o <= 10'b10_0000;
         end
     end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000010)begin   // rrrrr11111100000 wwwww01101000010    Format XII
         // BSH reg2, reg3
             reg2_o <= {GR[decord_instruction[15:11]][23:16], GR[decord_instruction[15:11]][31:24], GR[decord_instruction[15:11]][7:0], GR[decord_instruction[15:11]][15:8]};
             destination_o <= decord_instruction[31:27];    // reg3
-            circuit_sel_o <= 5'b00110;
+            circuit_sel_o <= 10'b0_0110;
     end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000000)begin   // rrrrr11111100000 wwwww01101000000    Format XII
         // BSW reg2, reg3
             reg2_o <= {GR[decord_instruction[15:11]][7:0], GR[decord_instruction[15:11]][15:8], GR[decord_instruction[15:11]][23:16], GR[decord_instruction[15:11]][31:24]};
             destination_o <= decord_instruction[31:27];    // reg3
-            circuit_sel_o <= 5'b00111;
+            circuit_sel_o <= 10'b0_0111;
     end else if(decord_instruction[15:6] == 10'b0000001000)begin                                                    // 0000001000iiiiii
         // CALLT imm6
 
@@ -238,7 +238,7 @@ always @(posedge clk)begin
         reg2_o <= {32{1'b0}};                                              // reg2 <- 0
         destination_o <= decord_instruction[31:27];                        // reg3 number
         increment_bit_o <= 1'b0;
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011000 && decord_instruction[16] == 1'b0)begin    // rrrrr111111iiiii wwwww011000cccc0    Format XII
         // CMOV cccc, imm5, reg2, reg3
@@ -248,21 +248,21 @@ always @(posedge clk)begin
         reg2_o <= {32{1'b0}};                                              // reg2 <- 0
         destination_o <= decord_instruction[31:27];                        // reg3 number
         increment_bit_o <= 1'b0;
-        circuit_sel_o <= 5'b00001;
+        circuit_sel_o <= 10'b10_0000;
 
     end else if(decord_instruction[10:5] == 6'b001111)begin                                                         // rrrrr001111RRRRR    Format I
         // CMP reg1, reg2
         reg2_o <= GR[decord_instruction[15:11]];
         reg1_o <= ~(GR[decord_instruction[4:0]]) + 32'b1;                  // exchange sign ★反転する時オーバーフローしたら？
         increment_bit_o <= 1'b0;
-        circuit_sel_o <= 5'b00000;
+        circuit_sel_o <= 10'b0_0000;
 
     end else if(decord_instruction[10:5] == 6'b010011)begin                                                         // rrrrr010011iiiii    Format II
         // CMP imm5, reg2
         reg2_o <= GR[decord_instruction[15:11]];
         reg1_o <= {{27{~decord_instruction[4]}}, ~(decord_instruction[4:0]) + 5'b1};                  // exchange sign ★反転する時オーバーフローしたら？imm5は６ビットで反転処理?
         increment_bit_o <= 1'b0;
-        circuit_sel_o <= 5'b00000;
+        circuit_sel_o <= 10'b0_0000;
 
     end else if(decord_instruction[31:0] == {16'b0000000101000100, 16'b0000011111100000})begin                      // 0000011111100000 0000000101000100
         // CTRET
@@ -278,14 +278,14 @@ always @(posedge clk)begin
         reg2_o <= GR[decord_instruction[15:11]];
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
-        circuit_sel_o <= 5'b01000;
+        circuit_sel_o <= 10'b0_1000;
 
     end else if(decord_instruction[10:5] == 6'b000010)begin                                                         // rrrrr000010RRRRR    Format I
         // DIVH reg1, reg2    (RRRRR != 00000,    rrrrr != 00000)
         reg1_o <= {{16{GR[decord_instruction[4:0]][31]}}, GR[decord_instruction[4:0]][15:0]};
         reg2_o <= GR[decord_instruction[15:11]];
         destination_o <= decord_instruction[15:11]; // reg2 number
-        circuit_sel_o <= 5'b01000;
+        circuit_sel_o <= 10'b0_1000;
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000000)begin         // rrrrr111111RRRRR wwwww01010000000    Format XI
         // DIVH reg1, reg2, reg3
@@ -293,7 +293,7 @@ always @(posedge clk)begin
         reg2_o <= GR[decord_instruction[15:11]];
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
-        circuit_sel_o <= 5'b01000;
+        circuit_sel_o <= 10'b0_1000;
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin         // rrrrr111111RRRRR wwwww01010000010    Format XI
         // DIVHU reg1, reg2, reg3
@@ -301,7 +301,7 @@ always @(posedge clk)begin
         reg2_o <= GR[decord_instruction[15:11]];
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
-        circuit_sel_o <= 5'b01000;
+        circuit_sel_o <= 10'b0_1000;
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111100)begin         // rrrrr111111RRRRR wwwww01011111100
         // DIVQ reg1, reg2, reg3
@@ -318,7 +318,7 @@ always @(posedge clk)begin
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
 /* 符号付き/符号なし　DIV回路分離する
-        circuit_sel_o <= 5'b01000;
+        circuit_sel_o <= 10'b01000;
 */
 
     end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b1000011111100000})begin                      // 1000011111100000 0000000101100000
@@ -336,13 +336,13 @@ always @(posedge clk)begin
         reg2_o <= GR[decord_instruction[15:11]];
         reg1_o <= 16'b0;
         destination_o <= decord_instruction[31:27];    // reg3 number
-        circuit_sel_o <= 5'b10000;
+        circuit_sel_o <= 10'b1_0000;
 
     end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000100)begin   // rrrrr11111100000 wwwww01101000100    Format XII
         // HSW reg2, reg3
         reg2_o <= {GR[decord_instruction[15:11]][15:0], GR[decord_instruction[15:11]][31:16]};           // reg2
         destination_o <= decord_instruction[31:27];        // reg3 number
-        circuit_sel_o <= 5'b10001;
+        circuit_sel_o <= 10'b1_0001;
        
     end else if(decord_instruction[10:6] == 5'b11110 && decord_instruction[16] == 1'b0)begin                        // rrrrr11110dddddd ddddddddddddddd0
         // JARL disp22, reg2    (rrrrr != 00000)
@@ -382,16 +382,43 @@ always @(posedge clk)begin
         // MAC reg1, reg2, reg3, reg4
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 7'b0011111 && decord_instruction[16] == 1'b0)begin    // rrrrr111111RRRRR wwww0011111mmmm0
         // MACU reg1, reg2, reg3, reg4
-    end else if(decord_instruction[10:5] == 6'b000000)begin                                                         // rrrrr000000RRRRR
+    end else if(decord_instruction[10:5] == 6'b000000)begin                                                         // rrrrr000000RRRRR    Format I
         // MOV reg1, reg2    (rrrrr != 00000)
-    end else if(decord_instruction[10:5] == 6'b010000)begin                                                         // rrrrr010000iiiii
+        reg1_o <= GR[decord_instruction[4:0]];
+        destination_o <= decord_instruction[15:11];                                 // reg2 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0001;
+
+    end else if(decord_instruction[10:5] == 6'b010000)begin                                                         // rrrrr010000iiiii    Format II
         // MOV imm5, reg2    (rrrrr != 00000)
-    end else if(decord_instruction[15:5] == 6'b00000110001)begin                                                    // 00000110001RRRRR iiiiiiiiiiiiiiii IIIIIIIIIIIIIIII
+        reg1_o <= {{27{decord_instruction[4]}}, decord_instruction[4:0]};           // imm5 with sign extended
+        destination_o <= decord_instruction[15:11];                                 // reg2 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0001;
+
+    end else if(decord_instruction[15:5] == 6'b00000110001)begin                                                    // 00000110001RRRRR iiiiiiiiiiiiiiii IIIIIIIIIIIIIIII    Format VI
         // MOV imm32, reg1
-    end else if(decord_instruction[10:5] == 6'b110001)begin                                                         // rrrrr110001RRRRR iiiiiiiiiiiiiiii
+        reg1_o <= decord_instruction[47:16];                                         // imm32
+        destination_o <= decord_instruction[4:0];                                   // reg1 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0001;
+
+    end else if(decord_instruction[10:5] == 6'b110001)begin                                                         // rrrrr110001RRRRR iiiiiiiiiiiiiiii    Format VI
         // MOVEA imm16, reg1, reg2    (rrrrr != 00000)
-    end else if(decord_instruction[10:5] == 6'b110010)begin                                                         // rrrrr110010RRRRR iiiiiiiiiiiiiiii
+        reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= {{16{decord_instruction[31]}}, decord_instruction[31:16]};    // imm16 with sign-extend
+        destination_o <= decord_instruction[15:11];                             // reg2 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0001;
+
+    end else if(decord_instruction[10:5] == 6'b110010)begin                                                         // rrrrr110010RRRRR iiiiiiiiiiiiiiii    Format VI
         // MOVHI imm16, reg1, reg2    (rrrrr != 00000)
+        reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= decord_instruction[31:16] << 16;                              // imm16 right shifed 16
+        destination_o <= decord_instruction[15:11];                             // reg2 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0001;
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01000100000)begin         // rrrrr111111RRRRR wwwww01000100000
         // MUL reg1, reg2, reg3
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:22] == 5'b01001 && decord_instruction[17:16] == 2'b00)begin    // rrrrr111111iiiii wwwww01001IIII00
@@ -410,6 +437,12 @@ always @(posedge clk)begin
         // NOP    (=MOV r0, r0)
     end else if(decord_instruction[10:5] == 6'b000001)begin                                                         // rrrrr000001RRRRR
         // NOT reg1, reg2
+        reg1_o <= ~(GR[decord_instruction[4:0]]);
+        reg2_o <= 32'b0;
+        destination_o <= decord_instruction[15:11];                            // reg2 number
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0010;
+
     end else if(decord_instruction[15:14] == 2'b01 && decord_instruction[10:5] == 6'b111110)begin                   // 01bbb111110RRRRR dddddddddddddddd
         // NOT1 bit#3, disp16 [reg1]
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[31:16] == 16'b0000000011100010)begin    // rrrrr111111RRRRR 0000000011100010
@@ -419,13 +452,13 @@ always @(posedge clk)begin
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
         reg2_o <= GR[decord_instruction[15:11]];               // reg2 value
         destination_o <= decord_instruction[15:11];            // destination regster number
-        circuit_sel_o <= 5'b00011;
+        circuit_sel_o <= 10'b0_0011;
     end else if(decord_instruction[10:5] == 6'b110100)begin                                                         // rrrrr110100RRRRR iiiiiiiiiiiiiiii    Format VI
         // ORI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
         reg2_o <= {{16{0}},decord_instruction[31:16]};         // immediate16 with 0 extension
         destination_o <= decord_instruction[15:11];            // destination regster number
-        circuit_sel_o <= 5'b0011;
+        circuit_sel_o <= 10'b0_0011;
     end else if(decord_instruction[15:6] == 10'b0000011110 && decord_instruction[20:16] == 5'b00001)begin           // 0000011110iiiiiL LLLLLLLLLLL00001
         // PREPARE list12, imm5
     end else if(decord_instruction[15:6] == 10'b0000011110 && decord_instruction[18:16] == 3'b011)begin             // 0000011110iiiiiL LLLLLLLLLLLff011 (imm16 / imm32)
@@ -521,14 +554,14 @@ always @(posedge clk)begin
         reg1_o <= ~(GR[decord_instruction[4:0]]) + 32'b1;         // invert rg1 value ★反転するときオーバーフローしたら？
         reg2_o <= GR[decord_instruction[15:11]];       // reg2 value
         destination_o <= decord_instruction[15:11];    // reg2 number
-        circuit_sel_o <= 5'b00000;
+        circuit_sel_o <= 10'b0_0000;
 
     end else if(decord_instruction[10:5] == 6'b001100)begin                                                         // rrrrr001100RRRRR
         // SUBR reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];                    // rg1 value
         reg2_o <= ~(GR[decord_instruction[15:11]]) + 32'b1;       // invert reg2 value ★反転するときオーバーフローしたら？
         destination_o <= decord_instruction[15:11];               // reg2 number
-        circuit_sel_o <= 5'b00000;
+        circuit_sel_o <= 10'b0_0000;
 
     end else if(decord_instruction[15:5] == 11'b00000000010)begin                                                   // 00000000010RRRRR
         // SWITCH reg1     (RRRRR != 00000)
