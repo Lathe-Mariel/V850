@@ -305,10 +305,22 @@ always @(posedge clk)begin
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111100)begin         // rrrrr111111RRRRR wwwww01011111100
         // DIVQ reg1, reg2, reg3
+        // ★可変ステップ
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011111110)begin         // rrrrr111111RRRRR wwwww01011111110
         // DIVQU reg1, reg2, reg3
+        // ★可変ステップ
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01011000010)begin         // rrrrr111111RRRRR wwwww01011000010
         // DIVU reg1, reg2, reg3
+        reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg3_o <= decord_instruction[31:27];        // reg3 number
+        destination_o <= decord_instruction[15:11]; // reg2 number
+/* 符号付き/符号なし　DIV回路分離する
+        circuit_sel_o <= 5'b01000;
+*/
+
     end else if(decord_instruction[31:0] == {16'b0000000101100000, 16'b1000011111100000})begin                      // 1000011111100000 0000000101100000
         // EI    <p90>
     end else if(decord_instruction[31:0] == {16'b0000000101001000, 16'b0000011111100000})begin                      // 0000011111100000 0000000101001000
@@ -321,6 +333,11 @@ always @(posedge clk)begin
         // HALT
     end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000110)begin   // rrrrr11111100000 wwwww01101000110
         // HSH reg2, reg3    <p95>
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg1_o <= 16'b0;
+        destination_o <= decord_instruction[31:27];    // reg3 number
+        circuit_sel_o <= 5'b10000;
+
     end else if(decord_instruction[10:0] == 11'b11111100000 && decord_instruction[26:16] == 11'b01101000100)begin   // rrrrr11111100000 wwwww01101000100
         // HSW reg2, reg3
     end else if(decord_instruction[10:6] == 5'b11110 && decord_instruction[16] == 1'b0)begin                        // rrrrr11110dddddd ddddddddddddddd0
