@@ -421,6 +421,11 @@ always @(posedge clk)begin
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01000100000)begin         // rrrrr111111RRRRR wwwww01000100000
         // MUL reg1, reg2, reg3
+/*
+        reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= GR[decord_instruction[15:11]];
+*/
+
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:22] == 5'b01001 && decord_instruction[17:16] == 2'b00)begin    // rrrrr111111iiiii wwwww01001IIII00
         // MUL imm9, reg2, reg3
     end else if(decord_instruction[10:5] == 6'b000111)begin                                                         // rrrrr000111RRRRR
