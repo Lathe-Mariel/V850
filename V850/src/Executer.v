@@ -81,6 +81,13 @@ always_ff @(posedge clk)begin
         end
         PSW[2] <= 1'b0;
         PSW[1] <= reg2_i[31];
+    end else if (circuit_sel_i == 10'b00_0100_0000)begin    // SAR
+        GR[destination_i] <= { {reg1_i[4:0]{reg2_i[31]}}, reg2_i >> reg1_i[4:0]};    // arithmetic right shift
+        PSW[3] <= reg1_i[4:0] == 0?0:
+                  reg2_i[reg1_i - 5'b1];
+        PSW[2] <= 1'b0;                    // OV <- 0
+        PSW[1] <= reg2_i[31];              // S
+        PSW[0] <= ({{reg1_i[4:0]{reg2_i[31]}}, reg2_i >> reg1_i[4:0]} == 0)?1:0;     // Z
     end
 end
 

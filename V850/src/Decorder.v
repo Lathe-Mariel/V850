@@ -471,10 +471,25 @@ always @(posedge clk)begin
         // RIE imm5, imm4    <p126>
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[31:16] == 16'b0000000010100000)begin    // rrrrr111111RRRRR 0000000010100000
         // SAR reg1, reg2
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg1_o <= GR[decord_instruction[4:0]][4:0];
+        destination_o <= decord_instruction[15:11];
+        circuit_sel_o <= 10'b00_0100_0000;
+
     end else if(decord_instruction[10:5] == 6'b010101)begin                                                         // rrrrr010101iiiii
         // SAR imm5, reg2
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg1_o <= {{27{0}}, decord_instruction[4:0]};                        // imm5 zero extended
+        destination_o <= decord_instruction[15:11];                          // reg2 number
+        circuit_sel_o <= 10'b00_0100_0000;
+
     end else if(decord_instruction[10:5] == 6'b010101 && decord_instruction[26:16] == 11'b00010100010)begin         // rrrrr111111RRRRR wwwww00010100010
         // SAR reg1, reg2, reg3
+        reg2_o <= GR[decord_instruction[15:11]];
+        reg1_o <= GR[decord_instruction[4:0]];
+        destination_o <= decord_instruction[31:27];       //reg3 number
+        circuit_sel_o <= 10'b00_0100_0000;
+
     end else if(decord_instruction[10:4] == 7'b1111110 && decord_instruction[31:16] == 16'b0000001000000000)begin   // rrrrr1111110cccc 0000001000000000
         // SASF cccc, reg2    <p129>
     end else if(decord_instruction[10:5] == 6'b000110)begin                                                         // rrrrr000110RRRRR
