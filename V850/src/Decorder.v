@@ -7,10 +7,10 @@ output logic[9:0] circuit_sel_o,
 input clk,
 input logic[31:0] PC,
 input logic[31:0] GR[31:0],
-input logic[31:0] PSW
+input logic[31:0] PSW,
+logic[63:0] instruction_i     // cpu instruction on decord section
 );
 
-logic[63:0] decord_instruction;  // cpu instruction on decord section
 
 function condition4(
     input logic[3:0] cond_i
@@ -42,6 +42,11 @@ function condition4(
     endcase
 endfunction
 
+logic[63:0] decord_instruction;
+
+always_ff @(posedge clk)begin
+    decord_instruction <= instruction_i;
+end
 
 // decorder
 always @(posedge clk)begin

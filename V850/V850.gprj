@@ -8,6 +8,7 @@
         <File path="V850.sv" type="file.verilog" enable="1"/>
         <File path="src/Decorder.v" type="file.verilog" enable="1"/>
         <File path="src/Executer.v" type="file.verilog" enable="1"/>
+        <File path="src/IFetcher.sv" type="file.verilog" enable="1"/>
         <File path="src/v850.cst" type="file.cst" enable="1"/>
         <File path="src/v850.sdc" type="file.sdc" enable="1"/>
     </FileList>

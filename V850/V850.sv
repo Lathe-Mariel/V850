@@ -36,46 +36,56 @@ logic[31:0] DBWR;   // working register for DB level exception
 logic[31:0] BSEL;   // selection of register bank
 
 
-logic[31:0] reg1, reg2;
-logic[31:0] reg3;
+
 //logic imm5;
-logic[9:0] circuit_sel;
 
 logic[31:0] PSW;
-logic[4:0] destination;    // GR[0] is always 0, and then destination is set up 0, PC is pointed as a destination register.
-logic[4:0] destination2;
-logic increment_bit;
-
 
 logic[31:0] GR[31:0];
 
 //assign GR[0] = 32'b0;
 
+logic[63:0] instruction_ifid;    //IF ID
+
+IFetcher inst_IFetcher(
+    .clk(clk),
+    .PC(PC),
+    .instruction_o(instruction_ifid)
+);
+
+logic[31:0] reg1_idex, reg2_idex;    // ID EX
+logic[31:0] reg3_idex;
+logic[4:0] destination_idex;    // GR[0] is always 0, and then destination is set up 0, PC is pointed as a destination register.
+logic[4:0] destination2_idex;
+logic increment_bit_idex;
+logic[9:0] circuit_sel_idex;
+
 Decorder inst_Decorder(
-    .reg1_o(reg1),
-    .reg2_o(reg2),
-    .reg3_o(reg3),
-    .increment_bit_o(increment_bit),
-    .destination_o(destination),
-    .destination2_o(destination2),
+    .instruction_i(instruction_ifid),
+    .reg1_o(reg1_idex),
+    .reg2_o(reg2_idex),
+    .reg3_o(reg3_idex),
+    .increment_bit_o(increment_bit_idex),
+    .destination_o(destination_idex),
+    .destination2_o(destination2_idex),
     .clk(clk),
     .PC(PC),
     .GR(GR),
     .PSW(PSW),
-    .circuit_sel_o(circuit_sel)
+    .circuit_sel_o(circuit_sel_idex)
 );
 
 Executer inst_Executer(
     .clk(clk),
-    .destination_i(destination),
-    .destination2_i(destination2),
-    .reg1_i(reg1),
-    .reg2_i(reg2),
-    .reg3_i(reg3),
-    .increment_bit_i(increment_bit),
+    .destination_i(destination_idex),
+    .destination2_i(destination2_idex),
+    .reg1_i(reg1_idex),
+    .reg2_i(reg2_idex),
+    .reg3_i(reg3_idex),
+    .increment_bit_i(increment_bit_idex),
     .GR(GR),
     .PSW(PSW),
-    .circuit_sel_i(circuit_sel),
+    .circuit_sel_i(circuit_sel_idex),
     .PC(PC)
 );
 
