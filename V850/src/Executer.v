@@ -2,6 +2,7 @@ module Executer(
 input logic clk,
 
 input logic[4:0] destination_i,    // number of destination register
+input logic[4:0] destination2_i,   // number of destination2 register
 input logic[31:0] reg1_i,
 input logic[31:0] reg2_i,
 input logic[31:0] reg3_i,          // ★is this signal always 5 bits
@@ -17,7 +18,7 @@ input logic[9:0] circuit_sel_i    //circuit select(5bits temporarily)
 //logic[31:0] PSW;    // program status word (18:NPV, 17:DMP, 16:IMP, 7:NP, 6:EP, 5:ID, 4:SAT, 3:CY, 2:OV, 1:S, 0:Z)
 
 always_ff @(posedge clk)begin
-    if(circuit_sel_i[5] == 1)begin                           // ADD,ADDI,ADF,Bcond,CMOV
+    if(circuit_sel_i[5] == 1)begin                               // ADD,ADDI,ADF,Bcond,CMOV
         if(circuit_sel_i[0] == 1)begin    // 10'b0000100001
           GR[destination_i] <= reg1_i + reg2_i;                  // PSW will not changed
         end else begin    // 10'b0000100000
@@ -32,20 +33,19 @@ always_ff @(posedge clk)begin
             PSW[2] <= (reg1_i[31] & reg2_i[31] & !((reg1_i + reg2_i + increment_bit_i) >> 31)) | (!reg1_i[31] & !reg2_i[31] & ((reg1_i + reg2_i + increment_bit_i) >> 31));  // OF = A・B・_C + _A・_B・C
           end
           PSW[1] <= (reg2_i + reg1_i + increment_bit_i) >> 31;
-          PSW[0] <= (reg2_i + reg1_i + increment_bit_i)==0?1:0;    // zero flag
+          PSW[0] <= (reg2_i + reg1_i + increment_bit_i)==0?1:0;  // zero flag
         end
-    end else if(circuit_sel_i == 10'b00000)begin                  // CMP,SUB
-        GR[destination_i] <= {1'b0, reg2_i} + {1'b0, reg1_i};
-        PSW[3] <= ~(({1'b0, reg2_i} + {1'b0, reg1_i}) >> 31);    // borrow flag(carry flag)
+    end else if(circuit_sel_i == 10'b00000)begin                 // CMP,SUB
+        PSW[3] <= ({1'b0, reg2_i} + {1'b0, reg1_i}) >> 32;    // borrow flag(carry flag)
         PSW[2] <= (reg1_i[31] & reg2_i[31] & !((reg1_i + reg2_i) >> 31)) | (!reg1_i[31] & !reg2_i[31] & ((reg1_i + reg2_i) >> 31));  // OF = A・B・_C + _A・_B・C
         PSW[1] <= (reg2_i + reg1_i + increment_bit_i) >> 31;
         PSW[0] <= (reg2_i + reg1_i + increment_bit_i)==0?1:0;    // zero flag
-    end else if(circuit_sel_i == 10'b00010)begin                  // AND,ANDI
+    end else if(circuit_sel_i == 10'b00010)begin                 // AND,ANDI
         GR[destination_i] <= reg2_i & reg1_i;
         PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2_i & reg1_i) >> 31;
         PSW[0] <= (reg2_i + reg1_i)==0?1:0;                      // zero flag
-    end else if(circuit_sel_i == 10'b00011)begin                  // OR
+    end else if(circuit_sel_i == 10'b00011)begin                 // OR
         GR[destination_i] <= reg2_i | reg1_i;
         PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2_i & reg1_i) >> 31;
@@ -62,33 +62,36 @@ always_ff @(posedge clk)begin
             PSW[0] <= (reg2_i[15:0]==16'b0);
         end
 
-//★符号付きの除算に問題ないか，回路を確認
     end else if(circuit_sel_i == 10'b01000)begin                  // DIV
-        GR[destination_i] <= reg2_i / reg1_i;
-        GR[reg3_i] <= reg2_i % reg1_i;                                                        // reg3_i is register number
+        GR[destination_i] <= $signed(reg2_i) / $signed(reg1_i);
+        GR[reg3_i] <= $signed(reg2_i) % $signed(reg1_i);                                                        // reg3_i is register number
         PSW[2] <= ((reg2_i == 32'h80000000 && reg1_i == 32'hFFFFFFFF) || reg1_i == 0)?1:0;    // OV flag
-        PSW[1] <= (reg2_i / reg1_i) >> 31;                                                    // sign flag
-        PSW[0] <= (reg2_i / reg1_i) == 1'b0;                                                  // zero flag
+        PSW[1] <= ($signed(reg2_i) / $signed(reg1_i)) >> 31;                                                    // sign flag
+        PSW[0] <= ($signed(reg2_i) / $signed(reg1_i)) == 1'b0;                                                  // zero flag
 
     end else if(circuit_sel_i == 10'b10000)begin                  // HSH,HSW
         GR[destination_i] <= reg2_i;
-        if(circuit_sel_i[0] ==1'b1)begin    // HSW
+        if(circuit_sel_i[0] ==1'b1)begin                          // HSW
           PSW[3] <= (reg2_i[15:0] == 0 || reg2_i[31:16] == 0)?1:0;
           PSW[0] <= reg2_i == 0?1:0;
-        end else begin                      // HSH
+        end else begin                                            // HSH
           PSW[3] <= reg2_i[15:0] == 0?1:0;
           PSW[0] <= reg2_i[15:0] == 0?1:0;
         end
         PSW[2] <= 1'b0;
         PSW[1] <= reg2_i[31];
-    end else if (circuit_sel_i == 10'b00_0100_0000)begin    // SAR
+
+    end else if(circuit_sel_i == 10'b00_0100_0000)begin            // SAR
 //★シフター回路構成検討
         //GR[destination_i] <= { {reg1_i[4:0]{reg2_i[31]}}, reg2_i >> reg1_i[4:0]};    // arithmetic right shift
         PSW[3] <= reg1_i[4:0] == 0?0:
                   reg2_i[reg1_i - 5'b1];
-        PSW[2] <= 1'b0;                    // OV <- 0
-        PSW[1] <= reg2_i[31];              // S
+        PSW[2] <= 1'b0;                                            // OV <- 0
+        PSW[1] <= reg2_i[31];                                      // S
         //PSW[0] <= ({{reg1_i[4:0]{reg2_i[31]}}, reg2_i >> reg1_i[4:0]} == 0)?1:0;     // Z
+
+    end else if(circuit_sel_i == 10'b00_1000_0000)begin            // MUL
+        {GR[destination2_i], GR[destination_i]} <= $signed(reg2_i) * $signed(reg1_i);
     end
 end
 

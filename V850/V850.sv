@@ -43,6 +43,7 @@ logic[9:0] circuit_sel;
 
 logic[31:0] PSW;
 logic[4:0] destination;    // GR[0] is always 0, and then destination is set up 0, PC is pointed as a destination register.
+logic[4:0] destination2;
 logic increment_bit;
 
 
@@ -56,6 +57,7 @@ Decorder inst_Decorder(
     .reg3_o(reg3),
     .increment_bit_o(increment_bit),
     .destination_o(destination),
+    .destination2_o(destination2),
     .clk(clk),
     .PC(PC),
     .GR(GR),
@@ -66,6 +68,7 @@ Decorder inst_Decorder(
 Executer inst_Executer(
     .clk(clk),
     .destination_i(destination),
+    .destination2_i(destination2),
     .reg1_i(reg1),
     .reg2_i(reg2),
     .reg3_i(reg3),

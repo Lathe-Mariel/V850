@@ -2,6 +2,7 @@ module Decorder(
 output logic[31:0] reg1_o, reg2_o, reg3_o,
 output logic increment_bit_o,
 output logic[4:0] destination_o,    // number of destination register
+output logic[4:0] destination2_o,   // number of destination2 register
 output logic[9:0] circuit_sel_o,
 input clk,
 input logic[31:0] PC,
@@ -47,23 +48,23 @@ always @(posedge clk)begin
     if(decord_instruction[10:5] == 6'b001110)begin                          // rrrrr001110RRRRR
         // ADD reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];
-        reg2_o <= GR[decord_instruction[15:10]];
+        reg2_o <= GR[decord_instruction[15:11]];
         increment_bit_o <= 1'b0;
-        destination_o <= decord_instruction[15:10];
+        destination_o <= decord_instruction[15:11];
         circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b010010)begin                  // rrrrr010010iiiii
         // ADD imm5, reg2
         reg1_o <= {{27{decord_instruction[4]}}, decord_instruction[4:0]};    // immediate5 value (with sign extension)
-        reg2_o <= GR[decord_instruction[15:10]];
+        reg2_o <= GR[decord_instruction[15:11]];
         increment_bit_o <= 1'b0;
-        destination_o <= decord_instruction[15:10];
+        destination_o <= decord_instruction[15:11];
         circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b110000)begin                  // rrrrr110000RRRRR iiiiiiiiiiiiiiii
         // ADDI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= {{16{decord_instruction[31]}}, decord_instruction[31:16]}; // immediate16 value (with sign extension)
         increment_bit_o <= 1'b0;
-        destination_o <= decord_instruction[15:10];
+        destination_o <= decord_instruction[15:11];
         circuit_sel_o <= 10'b10_0000;
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:21] == 6'b011101)begin    //rrrrr111111RRRRR wwwww011101cccc0
         // ADF cccc, reg1, reg2, reg3(cccc is conditions)    (cccc != 1101)
@@ -171,7 +172,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[10:5] == 6'b110110)begin    // rrrrr110110RRRRR iiiiiiiiiiiiiiii     Format VI
         // ANDI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
-        reg2_o <= {{16{0}},GR[decord_instruction[31:16]]};     // immediate16 with zero extension
+        reg2_o <= {{16{1'b0}},GR[decord_instruction[31:16]]};     // immediate16 with zero extension
         destination_o <= decord_instruction[15:11];            // destination regster number
         circuit_sel_o <= 10'b0_0010;
     end else if(decord_instruction[11:8] == 4'b1011)begin                              // ddddd1011dddcccc    Format III
@@ -205,7 +206,7 @@ always @(posedge clk)begin
 //          decord_instruction[3:0] == 4'b0010 PSW[0] ||                               // Z ==1                    Zero
 */
 
-            reg1_o <= {{23{decord_instruction[15]}}, decord_instruction[15:11], decord_instruction[6:4], 0};
+            reg1_o <= {{23{decord_instruction[15]}}, decord_instruction[15:11], decord_instruction[6:4], 1'b0};
             reg2_o <= PC;
             destination_o <= 5'b00000;
 //          increment_bit_o <= 1'b0;    // when destination_o is 5'b00000(PC) , increment_bit_o doesn't matter
@@ -297,7 +298,7 @@ always @(posedge clk)begin
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01010000010)begin         // rrrrr111111RRRRR wwwww01010000010    Format XI
         // DIVHU reg1, reg2, reg3
-        reg1_o <= {{16{0}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side) with unsigned extended
+        reg1_o <= {{16{1'b0}}, GR[decord_instruction[4:0]][15:0]};    // half word(LSB side) with unsigned extended
         reg2_o <= GR[decord_instruction[15:11]];
         reg3_o <= decord_instruction[31:27];        // reg3 number
         destination_o <= decord_instruction[15:11]; // reg2 number
@@ -421,13 +422,20 @@ always @(posedge clk)begin
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01000100000)begin         // rrrrr111111RRRRR wwwww01000100000
         // MUL reg1, reg2, reg3
-/*
         reg1_o <= GR[decord_instruction[4:0]];
         reg2_o <= GR[decord_instruction[15:11]];
-*/
+        destination_o <= decord_instruction[15:11];
+        destination2_o <= decord_instruction[31:27];
+        circuit_sel_o <= 10'b00_1000_0000;
 
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:22] == 5'b01001 && decord_instruction[17:16] == 2'b00)begin    // rrrrr111111iiiii wwwww01001IIII00
         // MUL imm9, reg2, reg3
+        reg1_o <= {{23{decord_instruction[21]}}, decord_instruction[21:18], decord_instruction[4:0]};
+        reg2_o <= GR[decord_instruction[15:11]];
+        destination_o <= decord_instruction[15:11];
+        destination2_o <= decord_instruction[31:27];
+        circuit_sel_o <= 10'b00_1000_0000;
+
     end else if(decord_instruction[10:5] == 6'b000111)begin                                                         // rrrrr000111RRRRR
         // MULH reg1, reg2    (rrrrr != 00000)
     end else if(decord_instruction[10:5] == 6'b010111)begin                                                         // rrrrr010111iiiii
@@ -461,7 +469,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[10:5] == 6'b110100)begin                                                         // rrrrr110100RRRRR iiiiiiiiiiiiiiii    Format VI
         // ORI imm16, reg1, reg2
         reg1_o <= GR[decord_instruction[4:0]];                 // reg1 value
-        reg2_o <= {{16{0}},decord_instruction[31:16]};         // immediate16 with 0 extension
+        reg2_o <= {{16{1'b0}},decord_instruction[31:16]};         // immediate16 with 0 extension
         destination_o <= decord_instruction[15:11];            // destination regster number
         circuit_sel_o <= 10'b0_0011;
     end else if(decord_instruction[15:6] == 10'b0000011110 && decord_instruction[20:16] == 5'b00001)begin           // 0000011110iiiiiL LLLLLLLLLLL00001
@@ -484,7 +492,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[10:5] == 6'b010101)begin                                                         // rrrrr010101iiiii
         // SAR imm5, reg2
         reg2_o <= GR[decord_instruction[15:11]];
-        reg1_o <= {{27{0}}, decord_instruction[4:0]};                        // imm5 zero extended
+        reg1_o <= {{27{1'b0}}, decord_instruction[4:0]};                        // imm5 zero extended
         destination_o <= decord_instruction[15:11];                          // reg2 number
         circuit_sel_o <= 10'b00_0100_0000;
 
