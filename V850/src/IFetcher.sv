@@ -36,11 +36,12 @@ always_ff @(posedge clk)begin
             PC <= PC + 25'd2;
             instruction_o <= {fetch, test_memory[PC+2], test_memory[PC+3]};
         end else begin
+            // ★
             // 48 bit
             PC <= PC + 25'd3;
 
             //  64 bit
-            PC <= PC = 25'd4;
+            PC <= 25'd4;
         end
 
     end else begin

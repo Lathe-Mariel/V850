@@ -444,10 +444,22 @@ always @(posedge clk)begin
         destination2_o <= decord_instruction[31:27];
         circuit_sel_o <= 10'b00_1000_0000;
 
-    end else if(decord_instruction[10:5] == 6'b000111)begin                                                         // rrrrr000111RRRRR
+    end else if(decord_instruction[10:5] == 6'b000111)begin                                                         // rrrrr000111RRRRR    Format I
         // MULH reg1, reg2    (rrrrr != 00000)
-    end else if(decord_instruction[10:5] == 6'b010111)begin                                                         // rrrrr010111iiiii
+        reg1_o <= GR[decord_instruction[4:0]][15:0];       // Multiplyer (Half word)
+        reg2_o <= GR[decord_instruction[15:11]][15:0];     // Multiplicant (Half word)
+        destination_o <= decord_instruction[15:11];        // reg2 number
+        destination2_o <= 0;                               // for MSB resister number
+        circuit_sel_o <= 10'b00_1000_0000;
+
+    end else if(decord_instruction[10:5] == 6'b010111)begin                                                         // rrrrr010111iiiii    Format II
         // MULH imm5, reg2    (rrrrr != 00000
+        reg1_o <= {{11{decord_instruction[4]}}, decord_instruction[4:0]};    // imm5 with sign extended (Half word)
+        reg2_o <= GR[decord_instruction[15:11]][15:0];     // Multiplicant (Half word)
+        destination_o <= decord_instruction[15:11];        // reg2 number
+        destination2_o <= 0;                               // for MSB resister number
+        circuit_sel_o <= 10'b00_1000_0000;
+
     end else if(decord_instruction[10:5] == 6'b110111)begin                                                         // rrrrr110111RRRRR iiiiiiiiiiiiiiii
         // MULHI imm16, reg1, reg2    (rrrrr != 00000)
     end else if(decord_instruction[10:5] == 6'b111111 && decord_instruction[26:16] == 11'b01000100010)begin         // rrrrr111111RRRRR wwwww01000100010

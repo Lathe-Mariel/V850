@@ -122,7 +122,7 @@ always_ff @(posedge clk)begin
         PSW[1] <= reg2[31];                                      // S
         //PSW[0] <= ({{reg1[4:0]{reg2[31]}}, reg2 >> reg1[4:0]} == 0)?1:0;     // Z
 
-    end else if(circuit_sel == 10'b00_1000_0000)begin            // MUL
+    end else if(circuit_sel == 10'b00_1000_0000)begin            // MUL, MULH
         {GR[destination2], GR[destination]} <= $signed(reg2) * $signed(reg1);
     end
 end
