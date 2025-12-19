@@ -10,7 +10,7 @@ input logic increment_bit_i,
 //input logic[4:0] imm5_i,
 output logic[31:0] GR[31:0],
 output logic[31:0] PSW,
-output logic[31:0] PC,
+output logic[31:0] PC_o,
 input logic[9:0] circuit_sel_i    //circuit select(5bits temporarily)
 );
 
@@ -54,7 +54,8 @@ always_ff @(posedge clk)begin
           GR[destination] <= reg1 + reg2;                  // PSW will not changed
         end else begin    // 10'b0000100000
           if(destination == 5'b00000)begin
-            PC <= reg2 + reg1;
+//★Bcond            PC <= reg2 + reg1;
+
           end else begin
             {PSW[3], GR[destination]} <= {1'b0, reg2} + {1'b0, reg1} + increment_bit;
           end

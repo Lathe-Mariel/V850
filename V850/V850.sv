@@ -8,7 +8,7 @@ input wire rst_n,
 output wire fan
 );
 
-logic[31:0] PC;    // [31:26] is automatically filled by sign extension. value of PC[0] is always 0.
+
 //logic[31:0][0] r0
 
 
@@ -46,11 +46,13 @@ logic[31:0] GR[31:0];
 //assign GR[0] = 32'b0;
 
 logic[63:0] instruction_ifid;    //IF ID
+logic[24:0] PC_ifid;    // virtually [25:1] ([31:26] is automatically filled by sign extension. value of PC[0] is always 0)
 
 IFetcher inst_IFetcher(
     .clk(clk),
-    .PC(PC),
-    .instruction_o(instruction_ifid)
+    .PC_i(),        // when branch??
+    .instruction_o(instruction_ifid),
+    .PC_o(PC_ifid)  //IF -> ID
 );
 
 logic[31:0] reg1_idex, reg2_idex;    // ID EX
@@ -69,11 +71,13 @@ Decorder inst_Decorder(
     .destination_o(destination_idex),
     .destination2_o(destination2_idex),
     .clk(clk),
-    .PC(PC),
+    .PC_i(PC_ifid),
     .GR(GR),
     .PSW(PSW),
     .circuit_sel_o(circuit_sel_idex)
 );
+
+logic[24:0] PC_exmem;    // EX -> MEM
 
 Executer inst_Executer(
     .clk(clk),
@@ -86,7 +90,7 @@ Executer inst_Executer(
     .GR(GR),
     .PSW(PSW),
     .circuit_sel_i(circuit_sel_idex),
-    .PC(PC)
+    .PC_o(PC_exmem)
 );
 
 

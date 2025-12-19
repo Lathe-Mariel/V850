@@ -5,7 +5,7 @@ output logic[4:0] destination_o,    // number of destination register
 output logic[4:0] destination2_o,   // number of destination2 register
 output logic[9:0] circuit_sel_o,
 input clk,
-input logic[31:0] PC,
+input logic[24:0] PC_i,             // Virtually [25:1]
 input logic[31:0] GR[31:0],
 input logic[31:0] PSW,
 logic[63:0] instruction_i     // cpu instruction on decord section
@@ -43,9 +43,12 @@ function condition4(
 endfunction
 
 logic[63:0] decord_instruction;
+logic[24:0] id_PC;
 
 always_ff @(posedge clk)begin
     decord_instruction <= instruction_i;
+    id_PC <= PC_i;
+
 end
 
 // decorder
@@ -212,7 +215,7 @@ always @(posedge clk)begin
 */
 
             reg1_o <= {{23{decord_instruction[15]}}, decord_instruction[15:11], decord_instruction[6:4], 1'b0};
-            reg2_o <= PC;
+            reg2_o <= id_PC;
             destination_o <= 5'b00000;
 //          increment_bit_o <= 1'b0;    // when destination_o is 5'b00000(PC) , increment_bit_o doesn't matter
             circuit_sel_o <= 10'b10_0000;
