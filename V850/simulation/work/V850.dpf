@@ -1,0 +1,17 @@
+---
+# Note: The contents of this file are automatically generated.
+# Any changes made by hand may be overwritten.
+version: '0.2'
+work_dir: .
+design_root_dir: /
+simulations:
+  - name: V850
+    options: '-top'
+source_files:
+  - language: verilog
+    path: E:\Gowin\Gowin_V1.9.11.01_x64\IDE\simlib\gw5a
+    library_name: gw5a
+  - language: verilog
+    path: ../src
+library_search_paths:
+  - $STD_LIBS\ieee93
