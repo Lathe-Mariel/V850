@@ -7,6 +7,9 @@ output logic[24:0] PC_o
 
 logic [7:0] test_memory[64];    // for test_memory
 
+logic[7:0] prefetch_ring_buffer[8];    //
+logic[2:0] buffer_pointer;             // index for ring buffer
+
 logic[24:0] PC;
 
 // 16'b00010_001110_00001    ADD reg1, reg2
@@ -26,7 +29,8 @@ assign {test_memory[10], test_memory[11]} = {16'b01001_001111_00001};  //CMP
 logic [15:0] fetch;  // tmp instruction
 logic reg2_en;       // reg2 number is not 0
 
-assign reg2_en = |{test_memory[PC << 1 + 1][7:3]};  // when reg2 number is 0
+assign reg2_en = |{test_memory[PC << 1 + 1][7:3]};  // when OP2(reg2 number) is 0
+
 
 always_ff @(posedge clk)begin
     fetch = {test_memory[{PC, 1}], test_memory[{PC, 0}]};    // 16 bit fetch
@@ -45,9 +49,13 @@ always_ff @(posedge clk)begin
         end
 
     end else begin
-        // 16bit inst
+        if(!reg2_en & test_memory[PC << 1][7] & test_memory[PC << 1 + 1][1])begin
+            // JR, JARL(32bit)
+        end else begin
+            // 16bit inst
         instruction_o <= fetch;
         PC <= PC + 25'd1;
+        end
     end
 
 

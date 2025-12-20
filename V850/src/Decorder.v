@@ -394,6 +394,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[10:5] == 6'b000000)begin                                                         // rrrrr000000RRRRR    Format I
         // MOV reg1, reg2    (rrrrr != 00000)
         reg1_o <= GR[decord_instruction[4:0]];
+        reg2_o <= 32'b0;
         destination_o <= decord_instruction[15:11];                                 // reg2 number
         increment_bit_o <= 1'b0;
         circuit_sel_o <= 10'b10_0001;
@@ -401,6 +402,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[10:5] == 6'b010000)begin                                                         // rrrrr010000iiiii    Format II
         // MOV imm5, reg2    (rrrrr != 00000)
         reg1_o <= {{27{decord_instruction[4]}}, decord_instruction[4:0]};           // imm5 with sign extended
+        reg2_o <= 32'b0;
         destination_o <= decord_instruction[15:11];                                 // reg2 number
         increment_bit_o <= 1'b0;
         circuit_sel_o <= 10'b10_0001;
@@ -408,6 +410,7 @@ always @(posedge clk)begin
     end else if(decord_instruction[15:5] == 6'b00000110001)begin                                                    // 00000110001RRRRR iiiiiiiiiiiiiiii IIIIIIIIIIIIIIII    Format VI
         // MOV imm32, reg1
         reg1_o <= decord_instruction[47:16];                                         // imm32
+        reg2_o <= 32'b0;
         destination_o <= decord_instruction[4:0];                                   // reg1 number
         increment_bit_o <= 1'b0;
         circuit_sel_o <= 10'b10_0001;

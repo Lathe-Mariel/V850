@@ -49,8 +49,8 @@ end
 
 
 always_ff @(posedge clk)begin
-    if(circuit_sel[5] == 1)begin                               // ADD,ADDI,ADF,Bcond,CMOV
-        if(circuit_sel[0] == 1)begin    // 10'b0000100001
+    if(circuit_sel[5] == 1)begin                               // ADD,ADDI,ADF,Bcond,CMOV,MOV
+        if(circuit_sel[0] == 1)begin    // 10'b0000100001 MOV
           GR[destination] <= reg1 + reg2;                  // PSW will not changed
         end else begin    // 10'b0000100000
           if(destination == 5'b00000)begin
