@@ -1,7 +1,1 @@
-=E:[FileNotFound]:
-    The following files specified on the command line could not be opened:    
-
-    ..\src    
-
-    Simulator invoked from directory: E:\git\V850\V850\simulation\work    
-
+=N:[LibUpdate] Updated library work.

@@ -25,7 +25,6 @@ assign {test_memory[6], test_memory[7]} = {16'b00011_110110_00001};    //ANDI
 assign {test_memory[8], test_memory[9]} = {16'b00000_000000_01011};
 assign {test_memory[10], test_memory[11]} = {16'b01001_001111_00001};  //CMP
 
-
 logic [15:0] fetch;  // tmp instruction
 logic reg2_en;       // reg2 number is not 0
 
@@ -33,7 +32,7 @@ assign reg2_en = |{test_memory[PC << 1 + 1][7:3]};  // when OP2(reg2 number) is 
 
 
 always_ff @(posedge clk)begin
-    fetch = {test_memory[{PC, 1}], test_memory[{PC, 0}]};    // 16 bit fetch
+    fetch = {test_memory[(PC << 1) + 6'b1], test_memory[PC << 1]};    // 16 bit fetch
     if(fetch[10:9] == 2'b11)begin
         if(reg2_en && (fetch[8] + fetch[7] + fetch[6]) == 1'b0)begin
             // 32bit inst
