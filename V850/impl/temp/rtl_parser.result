@@ -59,7 +59,7 @@
   "SubInsts" : [
    {
     "InstFile" : "E:/git/V850/V850/src/tb_Fetcher.sv",
-    "InstLine" : 6,
+    "InstLine" : 19,
     "InstName" : "inst_IFetcher",
     "ModuleFile" : "E:/git/V850/V850/src/IFetcher.sv",
     "ModuleLine" : 1,

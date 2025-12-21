@@ -1,4 +1,4 @@
-=N:[UsageMeter (2025-12-21 01:39:17 ìåãû (ïWèÄéû))] usage server initial connection
+=N:[UsageMeter (2025-12-21 22:20:31 ìåãû (ïWèÄéû))] usage server initial connection
 =N:[License] 
 Licensed for Altair DSim Cloud.
 =N:[License] New lease granted.
@@ -8,17 +8,12 @@ Elaborating...
     $unit
     tb_Fetcher
   Found 5 unique specialization(s) of 5 design element(s).
-=W:[AlwaysFFNba]:
-    The following variables in always_ff blocks are not written    
-    using non-blocking assignments:                                
-
-    E:\git\V850\V850\src\IFetcher.sv:34:1    fetch    
-
 Optimizing...
 Building models...
 PLI/VPI access: +b 
 Simulation time precision is 1ns.
-  [4/5] module tb_Fetcher: 11 functions, 77 basic blocks
+  [1/5] module $root: 115 functions, 268 basic blocks
+  [4/5] module tb_Fetcher: 17 functions, 104 basic blocks
 Linking image.so...
 Using default typical min/typ/max.
 =S:Begin run-time elaboration and static initialization...
@@ -26,14 +21,8 @@ Using default typical min/typ/max.
 =N:[dump] Dump started at time 0
 =N:Starting event scheduler...
 =N:[dumpMXD] closing MXD dump
-=T:CTRL-C received - terminating run.
-Simulation statistics:
-    End time: 427801600 ticks
-    Events processed: 149730569
-      Fast events: 0
-    Run time: 7.46 sec
-    Garbage collections: 1
-    Terminal heap size: 262144
-    Total bytes allocated: 6368
+=T:Simulation terminated by $finish at time 2100 (E:\git\V850\V850\src\tb_Fetcher.sv:40);
+Run directory: E:\git\V850\V850\simulation\work
+  System timescale is 1ns / 1ns
   Altair DSim version: 2026.0.0 (b:R #c:127 h:14cc828913 os:msys2_)
   Random seed: (defaulted to 1)
