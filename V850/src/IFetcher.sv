@@ -39,6 +39,9 @@ always_ff @(posedge clk)begin
     end else begin
         if(!reg2_en & prefetch_buffer[7] & prefetch_buffer[9])begin
             // JR, JARL(32bit)
+            instruction_o <= prefetch_buffer[31:0];
+            prefetch_buffer <= mem_i;
+            PC_o <= PC_o + 25'd2;
         end else begin
             // 16bit inst
             instruction_o <= prefetch_buffer[15:0];
