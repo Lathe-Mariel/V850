@@ -8,7 +8,10 @@ input logic[31:0] reg2_i,
 input logic[31:0] reg3_i,          // ★is this signal always 5 bits
 input logic increment_bit_i,
 //input logic[4:0] imm5_i,
-output logic[31:0] GR[31:0],
+output logic[31:0] result_o,
+output logic[31:0] result2_o,
+output logic[4:0] destination_o,
+output logic[4:0] destination2_o,
 output logic[31:0] PSW,
 output logic[31:0] PC_o,
 input logic[9:0] circuit_sel_i    //circuit select(5bits temporarily)
@@ -51,13 +54,15 @@ end
 always_ff @(posedge clk)begin
     if(circuit_sel[5] == 1)begin                               // ADD,ADDI,ADF,Bcond,CMOV,MOV
         if(circuit_sel[0] == 1)begin    // 10'b0000100001 MOV
-          GR[destination] <= reg1 + reg2;                  // PSW will not changed
+          result_o <= reg1 + reg2;                  // PSW will not changed
+        destination_o <= destination;
+        destination2_o <= 'b0;
         end else begin    // 10'b0000100000
           if(destination == 5'b00000)begin
 //★Bcond            PC <= reg2 + reg1;
 
           end else begin
-            {PSW[3], GR[destination]} <= {1'b0, reg2} + {1'b0, reg1} + increment_bit;
+            {PSW[3], result_o} <= {1'b0, reg2} + {1'b0, reg1} + increment_bit;
           end
           if(circuit_sel[1] == 1)begin
             PSW[2] <= 1'b0;                                      // OV flag <- 0
@@ -73,17 +78,23 @@ always_ff @(posedge clk)begin
         PSW[1] <= (reg2 + reg1 + increment_bit) >> 31;
         PSW[0] <= (reg2 + reg1 + increment_bit)==0?1:0;    // zero flag
     end else if(circuit_sel == 10'b00010)begin                 // AND,ANDI
-        GR[destination] <= reg2 & reg1;
+        result_o <= reg2 & reg1;
+        destination_o <= destination;
+        destination2_o <= 'b0;
         PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2 & reg1) >> 31;
         PSW[0] <= (reg2 + reg1)==0?1:0;                      // zero flag
     end else if(circuit_sel == 10'b00011)begin                 // OR
-        GR[destination] <= reg2 | reg1;
+        result_o <= reg2 | reg1;
+        destination_o <= destination;
+        destination2_o <= 'b0;
         PSW[2] <= 1'b0;                                          // OV flag
         PSW[1] <= (reg2 & reg1) >> 31;
         PSW[0] <= (reg2 + reg1)==0?1:0;                      // zero flag
     end else if(circuit_sel[4:1] == 4'b0011)begin              // BSH,BSW
-        GR[destination] <= reg2;
+        result_o <= reg2;
+        destination_o <= destination;
+        destination2_o <= 'b0;
         PSW[2] <= 1'b0;
         PSW[1] <= reg2[31];
         if(circuit_sel[0])begin
@@ -95,14 +106,18 @@ always_ff @(posedge clk)begin
         end
 
     end else if(circuit_sel == 10'b01000)begin                  // DIV
-        GR[destination] <= $signed(reg2) / $signed(reg1);
-        GR[reg3] <= $signed(reg2) % $signed(reg1);                                                        // reg3_i is register number
+        result_o <= $signed(reg2) / $signed(reg1);
+        result2_o <= $signed(reg2) % $signed(reg1);
+        destination_o <= destination;
+        destination2_o <= reg3;                                                         // reg3_i is register number
         PSW[2] <= ((reg2 == 32'h80000000 && reg1 == 32'hFFFFFFFF) || reg1 == 0)?1:0;    // OV flag
         PSW[1] <= ($signed(reg2) / $signed(reg1)) >> 31;                                                    // sign flag
         PSW[0] <= ($signed(reg2) / $signed(reg1)) == 1'b0;                                                  // zero flag
 
     end else if(circuit_sel == 10'b10000)begin                  // HSH,HSW
-        GR[destination] <= reg2;
+        result_o <= reg2;
+        destination_o <= destination;
+        destination2_o <= 'b0;
         if(circuit_sel[0] ==1'b1)begin                          // HSW
           PSW[3] <= (reg2[15:0] == 0 || reg2[31:16] == 0)?1:0;
           PSW[0] <= reg2 == 0?1:0;
@@ -123,7 +138,9 @@ always_ff @(posedge clk)begin
         //PSW[0] <= ({{reg1[4:0]{reg2[31]}}, reg2 >> reg1[4:0]} == 0)?1:0;     // Z
 
     end else if(circuit_sel == 10'b00_1000_0000)begin            // MUL, MULH
-        {GR[destination2], GR[destination]} <= $signed(reg2) * $signed(reg1);
+        {result2_o, result_o} <= $signed(reg2) * $signed(reg1);
+        destination_o <= destination;
+        destination2_o <= destination2;
     end
 end
 

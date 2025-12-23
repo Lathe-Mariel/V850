@@ -10,7 +10,7 @@ output wire fan
 
 
 //logic[31:0][0] r0
-
+logic[31:0] GR[31:0];
 
 // CPU Function group system registers
 logic[31:0] EIPC;   // status save register when EI level exception received
@@ -77,7 +77,11 @@ Decorder inst_Decorder(
     .circuit_sel_o(circuit_sel_idex)
 );
 
-logic[24:0] PC_exmem;    // EX -> MEM
+logic[24:0] PC_exmem;           // EX -> MEM
+logic[31:0] result_exmem;
+logic[31:0] result2_exmem;
+logic[4:0] destination_exwb;    // EX -> MEM & WB
+logic[4:0] destination2_exwb;   // EX -> MEM & WB
 
 Executer inst_Executer(
     .clk(clk),
@@ -87,7 +91,10 @@ Executer inst_Executer(
     .reg2_i(reg2_idex),
     .reg3_i(reg3_idex),
     .increment_bit_i(increment_bit_idex),
-    .GR(GR),
+    .result_o(result_exmem),
+    .result2_o(result2_exmem),
+    .destination_o(destination_exwb),
+    .destination2_o(destination2_exwb),
     .PSW(PSW),
     .circuit_sel_i(circuit_sel_idex),
     .PC_o(PC_exmem)
