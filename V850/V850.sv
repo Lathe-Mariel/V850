@@ -11,6 +11,7 @@ output wire fan
 
 //logic[31:0][0] r0
 logic[31:0] GR[31:0];
+logic[31:0] PSW;
 
 // CPU Function group system registers
 logic[31:0] EIPC;   // status save register when EI level exception received
@@ -39,7 +40,6 @@ logic[31:0] BSEL;   // selection of register bank
 
 //logic imm5;
 
-logic[31:0] PSW;
 
 logic[31:0] GR[31:0];
 
@@ -63,7 +63,7 @@ logic increment_bit_idex;
 logic[9:0] circuit_sel_idex;
 
 Decorder inst_Decorder(
-    .instruction_i(instruction_ifid),
+    .instruction_ID_i(instruction_ifid),
     .reg1_o(reg1_idex),
     .reg2_o(reg2_idex),
     .reg3_o(reg3_idex),
@@ -71,9 +71,9 @@ Decorder inst_Decorder(
     .destination_o(destination_idex),
     .destination2_o(destination2_idex),
     .clk(clk),
-    .PC_i(PC_ifid),
+    .PC_ID_i(PC_ifid),
     .GR(GR),
-    .PSW(PSW),
+    .PSW_i(PSW),
     .circuit_sel_o(circuit_sel_idex)
 );
 
@@ -82,11 +82,12 @@ logic[31:0] result_exmem;
 logic[31:0] result2_exmem;
 logic[4:0] destination_exwb;    // EX -> MEM & WB
 logic[4:0] destination2_exwb;   // EX -> MEM & WB
+logic[31:0] PSW_exwb;           // EX -> WB
 
 Executer inst_Executer(
     .clk(clk),
-    .destination_i(destination_idex),
-    .destination2_i(destination2_idex),
+    .destination_EX_i(destination_idex),
+    .destination2_EX_i(destination2_idex),
     .reg1_i(reg1_idex),
     .reg2_i(reg2_idex),
     .reg3_i(reg3_idex),
@@ -95,7 +96,7 @@ Executer inst_Executer(
     .result2_o(result2_exmem),
     .destination_o(destination_exwb),
     .destination2_o(destination2_exwb),
-    .PSW(PSW),
+    .PSW_o(PSW_exwb),
     .circuit_sel_i(circuit_sel_idex),
     .PC_o(PC_exmem)
 );
