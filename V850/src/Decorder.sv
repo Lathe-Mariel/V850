@@ -556,8 +556,13 @@ always_ff @(posedge clk)begin
         // SET1 bit#3, dips16[reg1]
     end else if(instruction_ID_i[10:5] == 6'b111111 && instruction_ID_i[31:16] == 16'b0000000011100000)begin    // rrrrr111111RRRRR 0000000011100000
         // SET1 reg2, [reg1]
-    end else if(instruction_ID_i[10:4] == 7'b1111110 && instruction_ID_i[31:16] == 16'b0000000000000000)begin   // rrrrr1111110cccc 0000000000000000
+    end else if(instruction_ID_i[10:4] == 7'b1111110 && instruction_ID_i[31:16] == 16'b0000000000000000)begin   // rrrrr1111110cccc 0000000000000000    FormatIX
         // SETF cccc, reg2
+        reg2_o <= condition4(instruction_ID_i[3:0])?1:0;
+        destination_o <= instruction_ID_i[15:11];
+        increment_bit_o <= 1'b0;
+        circuit_sel_o <= 10'b10_0000; 
+
     end else if(instruction_ID_i[10:5] == 6'b111111 && instruction_ID_i[31:16] == 16'b0000000011000000)begin    // rrrrr111111RRRRR 0000000011000000
         // SHL reg1, reg2
     end else if(instruction_ID_i[10:5] == 6'b010110)begin                                                         // rrrrr010110iiiii
