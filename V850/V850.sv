@@ -83,6 +83,7 @@ logic[31:0] result2_exwb;       // EX -> WB
 logic[4:0] destination_exwb;    // EX -> MEM & WB
 logic[4:0] destination2_exwb;   // EX -> MEM & WB
 logic[31:0] PSW_exwb;           // EX -> WB
+logic[9:0] circuit_sel_exmem;   // EX -> MEM
 
 Executer inst_Executer(
     .clk(clk),
@@ -98,6 +99,7 @@ Executer inst_Executer(
     .destination2_o(destination2_exwb),
     .PSW_o(PSW_exwb),
     .circuit_sel_i(circuit_sel_idex),
+    .circuit_sel_o(circuit_sel_exmem),
     .PC_o(PC_exmem)
 );
 
@@ -109,7 +111,8 @@ Memory inst_Memory(
     .destination_i(destination_exwb),
     .memory_address_i(),
     .wb_data_o(wb_data_memwb),
-    .destination_o(destination_memwb)
+    .destination_o(destination_memwb),
+    .circuit_sel_i(circuit_sel_exmem)
 );
 
 

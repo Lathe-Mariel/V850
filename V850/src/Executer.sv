@@ -15,7 +15,8 @@ output logic[4:0] destination2_o,
 output logic[31:0] PSW_o,
 output logic[31:0] PC_o,
 output logic[31:0] memory_address_o,    // for MEM stage
-input logic[9:0] circuit_sel_i    //circuit select(5bits temporarily)
+input logic[9:0] circuit_sel_i,    //circuit select(5bits temporarily)
+output logic[9:0] circuit_sel_o    //circuit select(5bits temporarily)
 );
 
 //logic[31:0] GR[31:0];    //general registers. r[1] is r1.
@@ -145,6 +146,7 @@ always_ff @(posedge clk)begin
     end else if(circuit_sel_i == 10'b01_0000_0000)begin            // LD.B
         destination_o <= destination_EX_i;                         // destination register number
         memory_address_o <= reg1_i + reg2_i;
+        circuit_sel_o <= circuit_sel_i;
 
     end
 end
