@@ -2,31 +2,31 @@
  "Device" : "GW5AST-138C",
  "Files" : [
   {
-   "Path" : "H:/git/V850/V850/V850.sv",
+   "Path" : "C:/Git/V850/V850/V850.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Decorder.sv",
+   "Path" : "C:/Git/V850/V850/src/Decorder.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Executer.sv",
+   "Path" : "C:/Git/V850/V850/src/Executer.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/IFetcher.sv",
+   "Path" : "C:/Git/V850/V850/src/IFetcher.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Memory.sv",
+   "Path" : "C:/Git/V850/V850/src/Memory.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Writeback.sv",
+   "Path" : "C:/Git/V850/V850/src/Writeback.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/tb_Fetcher.sv",
+   "Path" : "C:/Git/V850/V850/src/tb_Fetcher.sv",
    "Type" : "verilog"
   }
  ],
@@ -34,7 +34,7 @@
 
  ],
  "LoopLimit" : 2000,
- "ResultFile" : "H:/git/V850/V850/impl/temp/rtl_parser.result",
+ "ResultFile" : "C:/Git/V850/V850/impl/temp/rtl_parser.result",
  "Top" : "V850",
  "VerilogStd" : "sysv",
  "VhdlStd" : "vhdl_93"

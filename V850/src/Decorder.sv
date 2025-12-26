@@ -365,8 +365,13 @@ always_ff @(posedge clk)begin
         // JR disp22
     end else if(instruction_ID_i[15:0] == 16'b0000001011100000 && instruction_ID_i[16] == 1'b0)begin            // 0000001011100000 ddddddddddddddd0 DDDDDDDDDDDDDDDD
         // JR disp32
-    end else if(instruction_ID_i[10:5] == 6'b111000)begin                                                         // rrrrr111000RRRRR dddddddddddddddd
+    end else if(instruction_ID_i[10:5] == 6'b111000)begin                                                         // rrrrr111000RRRRR dddddddddddddddd    Format VII
         // LD.B disp16 [reg1], reg2
+        reg1_o <= GR[instruction_ID_i[4:0]];                                        // base address
+        reg2_o <= {{16{instruction_ID_i[31]}}, instruction_ID_i[31:16]};            // imm16 with sign extended
+        destination_o <= instruction_ID_i[15:11];     // reg2 number
+        circuit_sel_o <= 10'b01_0000_0000;
+
     end else if(instruction_ID_i[15:5] == 11'b00000111100 && instruction_ID_i[19:16] == 4'b0101)begin           // 00000111100RRRRR wwwwwddddddd0101 DDDDDDDDDDDDDDDD
         // LD.B dis23 [reg1], reg3
     end else if(instruction_ID_i[10:6] == 5'b11110 && instruction_ID_i[16] == 1'b1)begin                        // rrrrr11110bRRRRR ddddddddddddddd1

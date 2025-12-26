@@ -78,8 +78,8 @@ Decorder inst_Decorder(
 );
 
 logic[24:0] PC_exmem;           // EX -> MEM
-logic[31:0] result_exmem;
-logic[31:0] result2_exmem;
+logic[31:0] result_exwb;        // EX -> WB
+logic[31:0] result2_exwb;       // EX -> WB
 logic[4:0] destination_exwb;    // EX -> MEM & WB
 logic[4:0] destination2_exwb;   // EX -> MEM & WB
 logic[31:0] PSW_exwb;           // EX -> WB
@@ -92,13 +92,40 @@ Executer inst_Executer(
     .reg2_i(reg2_idex),
     .reg3_i(reg3_idex),
     .increment_bit_i(increment_bit_idex),
-    .result_o(result_exmem),
-    .result2_o(result2_exmem),
+    .result_o(result_exwb),
+    .result2_o(result2_exwb),
     .destination_o(destination_exwb),
     .destination2_o(destination2_exwb),
     .PSW_o(PSW_exwb),
     .circuit_sel_i(circuit_sel_idex),
     .PC_o(PC_exmem)
+);
+
+logic[31:0] wb_data_memwb;           // MEM -> WB
+logic[4:0] destination_memwb;        // MEM -> WB
+
+Memory inst_Memory(
+    .clk(clk),
+    .destination_i(destination_exwb),
+    .memory_address_i(),
+    .wb_data_o(wb_data_memwb),
+    .destination_o(destination_memwb)
+);
+
+
+
+Writeback inst_Writeback(
+    .clk(clk),
+    .result_i(result_exwb),
+    .result2_i(result2_exwb),
+    .destination_i(destination_exwb),
+    .destination2_i(destination2_exwb),
+
+    .wb_data_i(wb_data_memwb),
+    .mem_destination_i(destination_memwb),    // destination register number for memory access data
+    .PSW_i(),
+    .GR(GR),
+    .PSW_o()
 );
 
 

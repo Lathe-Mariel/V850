@@ -4,6 +4,8 @@ input logic[31:0] result_i,
 input logic[31:0] result2_i,
 input logic[4:0] destination_i,
 input logic[4:0] destination2_i,
+input logic[31:0] wb_data_i,        // from MEM stage
+input logic mem_destination_i,      // from MEM stage
 input logic[31:0] PSW_i,
 output logic[31:0] GR[32],
 output logic[31:0] PSW_o

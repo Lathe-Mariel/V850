@@ -14,6 +14,7 @@ output logic[4:0] destination_o,
 output logic[4:0] destination2_o,
 output logic[31:0] PSW_o,
 output logic[31:0] PC_o,
+output logic[31:0] memory_address_o,    // for MEM stage
 input logic[9:0] circuit_sel_i    //circuit select(5bits temporarily)
 );
 
@@ -141,6 +142,10 @@ always_ff @(posedge clk)begin
         {result2_o, result_o} <= $signed(reg2_i) * $signed(reg1_i);
         destination_o <= destination_EX_i;
         destination2_o <= destination2_EX_i;
+    end else if(circuit_sel_i == 10'b01_0000_0000)begin            // LD.B
+        destination_o <= destination_EX_i;                         // destination register number
+        memory_address_o <= reg1_i + reg2_i;
+
     end
 end
 
