@@ -7,6 +7,7 @@
     <FileList>
         <File path="V850.sv" type="file.verilog" enable="1"/>
         <File path="src/Decorder.sv" type="file.verilog" enable="1"/>
+        <File path="src/Decorder_tb.sv" type="file.verilog" enable="1"/>
         <File path="src/Executer.sv" type="file.verilog" enable="1"/>
         <File path="src/IFetcher.sv" type="file.verilog" enable="1"/>
         <File path="src/Memory.sv" type="file.verilog" enable="1"/>

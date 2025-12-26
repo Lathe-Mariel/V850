@@ -2,31 +2,35 @@
  "Device" : "GW5AST-138C",
  "Files" : [
   {
-   "Path" : "C:/Git/V850/V850/V850.sv",
+   "Path" : "E:/git/V850/V850/V850.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/Decorder.sv",
+   "Path" : "E:/git/V850/V850/src/Decorder.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/Executer.sv",
+   "Path" : "E:/git/V850/V850/src/Executer.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/IFetcher.sv",
+   "Path" : "E:/git/V850/V850/src/IFetcher.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/Memory.sv",
+   "Path" : "E:/git/V850/V850/src/Memory.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/Writeback.sv",
+   "Path" : "E:/git/V850/V850/src/Writeback.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "C:/Git/V850/V850/src/tb_Fetcher.sv",
+   "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
+   "Type" : "verilog"
+  },
+  {
+   "Path" : "E:/git/V850/V850/src/Decorder_tb.sv",
    "Type" : "verilog"
   }
  ],
@@ -34,7 +38,7 @@
 
  ],
  "LoopLimit" : 2000,
- "ResultFile" : "C:/Git/V850/V850/impl/temp/rtl_parser.result",
+ "ResultFile" : "E:/git/V850/V850/impl/temp/rtl_parser.result",
  "Top" : "V850",
  "VerilogStd" : "sysv",
  "VhdlStd" : "vhdl_93"
