@@ -84,9 +84,10 @@ reg led;
 assign error = ~err;
 //assign error1 = err;
 
+/* 動作確認用 LED点滅 */
 reg [31:0] led_cnt;
 
-always@(posedge clk_x1)begin // clk_x1 CLK from DDR IP 
+always@(posedge clk_x1)begin // clk_x1 CLK from DDR IP （DDR IPから出力されるクロック）
     if(led_cnt >= 50_000_000) begin
             led <= ~led;
             led_cnt <= 'd0;
@@ -108,6 +109,7 @@ Gowin_PLL Gowin_PLL_inst(
 .enclk2(pll_stop) //input enclk2
 );
 
+/* テストベンチ */
 ddr3_test1  #
     (
      .ADDR_WIDTH(29) ,          //ADDR_WIDTH=29
@@ -115,68 +117,71 @@ ddr3_test1  #
      .APP_MASK_WIDTH (32),      //APP_MASK_WIDTH=32
      .USER_REFRESH("OFF")
     )u_rd(
-    .clk                (clk_x1),
-    .rst                (~rst_n),  
-    .app_rdy            (app_rdy),
+// テストベンチ入力
+    .clk                (clk_x1),               // <- DDR IP
+    .rst                (~rst_n),               // <- ボード
+    .app_rdy            (app_rdy),              // <- DDR IP
+    .app_rd_data_valid  (app_rd_data_valid),    // <- DDR IP 読み出しデータ有効
+    .app_rd_data        (app_rd_data),          // <- DDR IP 読み出しデータ
+    .init_calib_complete(init_calib_complete),  // <- DDR IP IPの初期化完了
+    .wr_data_rdy        (app_wdf_rdy),          // <- DDR IP データ受信可能
+
+//出力
     .app_en             (app_en),
     .app_cmd            (app_cmd),
-    .app_addr           (app_addr),
-    .app_wdf_data       (app_wdf_data),
+    .app_addr           (app_addr),             // -> DDR IP
+    .app_wdf_data       (app_wdf_data),         // -> DDR IP 書き込みデータ
     .app_wdf_wren       (app_wdf_wren),
     .app_wdf_end        (app_wdf_end),
     .app_wdf_mask       (app_wdf_mask),
     .app_burst          (app_burst),
-    .app_rd_data_valid  (app_rd_data_valid),
-    .app_rd_data        (app_rd_data), 
-    .init_calib_complete(init_calib_complete),
-    .wr_data_rdy        (app_wdf_rdy),
     .sr_req             (sr_req),
-    .error              (err),
+    .error              (err),                  // -> board LED
     .ref_req            (ref_req)
     );
 
 //DDR3_Memory_Interface_Top u_ddr3 (
     D3_400 u_ddr3 (
-    .memory_clk      (memory_clk),
+    .memory_clk      (memory_clk),              // メモリ用クロック（ -> DDR3 IP)
     .pll_stop        (pll_stop),
-    .clk             (clk),
-    .rst_n           (rst_n),   //rst_n
-    .cmd_ready       (app_rdy),
-    .cmd             (app_cmd),
-    .cmd_en          (app_en),
-    .addr            (app_addr),
-    .wr_data_rdy     (app_wdf_rdy),
-    .wr_data         (app_wdf_data),
-    .wr_data_en      (app_wdf_wren),
-    .wr_data_end     (app_wdf_end),
+    .clk             (clk),                     // リファレンスクロック（ -> DDR3 IP）
+    .rst_n           (rst_n),                   //rst_n システムリセット（ -> DDR3 IP）
+    .cmd_ready       (app_rdy),                 // コマンドおよびアドレスを受信可能（ DDR3 IP -> ）
+    .cmd             (app_cmd),                 // コマンド 1:read  0:write ( -> DDR3 IP )
+    .cmd_en          (app_en),                  // アドレスおよびコマンド・イネーブル    1:有効 ( -> DDR3 IP )
+    .addr            (app_addr),                // アドレス入力  Rank + Bank + Row + Column
+    .wr_data_rdy     (app_wdf_rdy),             // データ受信可能（ DDR3 IP -> ）
+    .wr_data         (app_wdf_data),            // 書き込みデータ
+    .wr_data_en      (app_wdf_wren),            // 書き込みイネーブル( -> DDR3 IP )
+    .wr_data_end     (app_wdf_end),             // バースト転送の最終サイクルを示す    1:最終サイクル
     .wr_data_mask    (app_wdf_mask),
-    .rd_data         (app_rd_data),
-    .rd_data_valid   (app_rd_data_valid),
-    .rd_data_end     (app_rd_data_end),
-    .sr_req          (1'b0),
-    .ref_req         (1'b0),
+    .rd_data         (app_rd_data),             // 読み出しデータ( DDR3 IP -> ）
+    .rd_data_valid   (app_rd_data_valid),       // rd_data 有効（ DDR3 IP -> ）
+    .rd_data_end     (app_rd_data_end),         // 書き込みの最終サイクルであることを示す（ -> DDR3 IP ）
+    .sr_req          (1'b0),                    // セルフリフレッシュ要求（ -> DDR3 IP ）
+    .ref_req         (1'b0),                    // ユーザーリフレッシュ要求（ -> DDR3 IP ）
     //.zq_req          (1'b0),
-    .sr_ack          (app_sre_act),
-    .ref_ack         (app_ref_ack),
-    .init_calib_complete(init_calib_complete),
+    .sr_ack          (app_sre_act),             // セルフリフレッシュ応答（ DDR3 IP -> ）
+    .ref_ack         (app_ref_ack),             // ユーザーリフレッシュ応答（ DDR3 IP -> ）
+    .init_calib_complete(init_calib_complete),  // キャリブレーション完了（ DDR3 IP -> ）
     `ifdef DEBUG_PORT_ENABLE
     .dbg_vector4_out         (),
     .dbg_vector3_out         (),
     .dbg_vector2_out         (), 
     .dbg_vector1_out         (), 
     `endif
-    .clk_out         (clk_x1),
-    .pll_lock        (pll_lock), 
+    .clk_out         (clk_x1),                  // ユーザデザインのクロック（出力）
+    .pll_lock        (pll_lock),                // PLLロック(入力) 使わない場合は1にする
     //.pll_lock        (1'b1), 
     //`ifdef ECC
     //.ecc_err         (ecc_err),
     //`endif
-    .burst           (app_burst),
+    .burst           (app_burst),               // OTF制御ポート  1:BL8モード,  0:BC4モード. OTFモードでのみ有効 
     // mem interface
-    .ddr_rst         (ddr_rst),
-    .O_ddr_addr      (ddr_addr),
-    .O_ddr_ba        (ddr_bank),
-    .O_ddr_cs_n      (ddr_cs),
+    .ddr_rst         (ddr_rst),                 // IP内で使われるグローバルリセット，ユーザ回路にも出力
+    .O_ddr_addr      (ddr_addr),                // Rowアドレス(アクティブコマンド)、Columnアドレス(読み出し、書き込みコマンド) 
+    .O_ddr_ba        (ddr_bank),                // Bankアドレス
+    .O_ddr_cs_n      (ddr_cs),                  // チップセレクト信号，アクティブLow 
     .O_ddr_ras_n     (ddr_ras),
     .O_ddr_cas_n     (ddr_cas),
     .O_ddr_we_n      (ddr_we),
@@ -184,7 +189,7 @@ ddr3_test1  #
     .O_ddr_clk_n     (ddr_ck_n),
     .O_ddr_cke       (ddr_cke),
     .O_ddr_odt       (ddr_odt),
-    .O_ddr_reset_n   (ddr_reset_n),
+    .O_ddr_reset_n   (ddr_reset_n),             // _DDR3 SDRAMリセット信号
     .O_ddr_dqm       (ddr_dm),
     .IO_ddr_dq       (ddr_dq),
     .IO_ddr_dqs      (ddr_dqs),

@@ -57,14 +57,14 @@ module ddr3_test1 #(
     input app_rdy;
     input app_rd_data_valid;
     input wr_data_rdy;
-    input [APP_DATA_WIDTH-1:0] app_rd_data;
+    input [APP_DATA_WIDTH-1:0] app_rd_data;        // <- DDRR3 IP 読み出しデータ
     input init_calib_complete;
 
     output reg           app_en;
     output reg     [2:0] app_cmd;
-    output reg     [ADDR_WIDTH-1:0] app_addr ;
+    output reg     [ADDR_WIDTH-1:0] app_addr ;    // -> DDR3 IP
     output reg     [APP_DATA_WIDTH-1:0] app_wdf_data ;
-    output reg     app_wdf_wren;
+    output reg     app_wdf_wren;                  // -> DDR3 IP 書き込みイネーブル
     output     app_wdf_end;
     output [APP_MASK_WIDTH-1:0] app_wdf_mask ;
     output app_burst;
@@ -81,6 +81,7 @@ module ddr3_test1 #(
     reg app_rd_data_valid_rr;
     reg [APP_DATA_WIDTH-1:0] app_rd_data_rr/* synthesis syn_preserve = 1 */;
 
+/* 読み出しデータ FF 2段で受ける */
     always@(posedge clk or posedge rst)begin
         if(rst)begin
             app_rd_data_valid_r <= 1'b0;
@@ -102,7 +103,7 @@ module ddr3_test1 #(
     assign app_burst = 0;
 	
 	wire [63:0] EYE_MEM [0:7];
-	
+/* 書き込みデータ群 */	
 	assign	EYE_MEM[0] = 64'h5883adb4c88ad596;
 	assign	EYE_MEM[1] = 64'h1122334455667788;
 	assign	EYE_MEM[2] = 64'h99aabbccddeeff00;
@@ -113,7 +114,8 @@ module ddr3_test1 #(
 	assign  EYE_MEM[7] = 64'hffffffff0000ffff;
 
 	wire [63:0] EYE_MEM_C [0:7];
-	
+
+/* 検証 比較用データ群 */	
 	assign	EYE_MEM_C[0] = 64'h5883adb4c88ad596;
 //	assign	EYE_MEM_C[0] = 64'h4883adb4c88ad596;
 	assign	EYE_MEM_C[1] = 64'h1122334455667788;
@@ -143,9 +145,9 @@ module ddr3_test1 #(
 	
 	reg [2:0] cnt_r;
 	
-    reg [2:0] cnt1;
-    reg [13:0] cnt2;
-    reg [6:0] cnt3;
+    reg [2:0] cnt1;    // bank データ選択カウンタ
+    reg [13:0] cnt2;   // row データ選択カウンタ 0～16384
+    reg [6:0] cnt3;    // col データ選択カウンタ 0～1024
 
     always@(posedge clk or posedge rst)begin
         if(rst)
@@ -154,6 +156,7 @@ module ddr3_test1 #(
             c_s <= n_s;
     end
 
+/* テスト項目 順次切り替え ステートマシン */
    always@(*)begin
         case(c_s)
             IDLE                 :begin
@@ -216,8 +219,8 @@ module ddr3_test1 #(
         else
             app_en <= 1'b0;
 
-	
 	//assign app_cmd = (c_s == WR_BANK_CH | c_s == WR_ROW_CH | c_s == WR_COL_CH) ? 3'b000 : 3'b001;
+/* 読み書き信号切り替え */
     always@(posedge clk or posedge rst)
         if(rst)
             app_cmd <= 3'b000;
@@ -227,6 +230,7 @@ module ddr3_test1 #(
             app_cmd <= 3'b001;
 	
 	//assign app_wdf_wren = (c_s == WR_BANK_CH | c_s == WR_ROW_CH | c_s == WR_COL_CH) ?  (app_rdy & wr_data_rdy) : 1'b0;
+/* 書き込みイネーブル信号 */
     always@(posedge clk or posedge rst)
         if(rst)
             app_wdf_wren <= 1'b0;
@@ -236,7 +240,7 @@ module ddr3_test1 #(
             app_wdf_wren <= 1'b0;
 	assign app_wdf_end = app_wdf_wren;
 	
-	
+/* bank  カウンタ インクリメント */	
 	always@(posedge clk or posedge rst)begin
 		if(rst)
 			cnt1 <= 'd0;
@@ -248,6 +252,7 @@ module ddr3_test1 #(
 		end
 	end
 
+/* row カウンタ インクリメント */
 	always@(posedge clk or posedge rst)begin
 		if(rst)
 			cnt2 <= 'd0;
@@ -259,6 +264,7 @@ module ddr3_test1 #(
 		end
 	end
 
+/* col カウンタ インクリメント */
     always@(posedge clk or posedge rst)begin
 		if(rst)
 			cnt3 <= 'd0;
@@ -270,6 +276,7 @@ module ddr3_test1 #(
 		end
 	end
 
+/* 書き込みアドレス選択 */
 	//assign app_addr = {1'b0,bank,row,col};
     always@(posedge clk or posedge rst)
         if(rst)
@@ -277,6 +284,8 @@ module ddr3_test1 #(
         else
             app_addr <= {1'b0,bank,row,col};
 
+
+/* アドレスインクリメント */
     always@(posedge clk or posedge rst)begin
         if(rst)begin
             bank <= 3'd0;
@@ -346,7 +355,7 @@ module ddr3_test1 #(
         end
     end
 
-
+/* 書き込みデータ 組み立て */
     always@(posedge clk or posedge rst)
         if(rst)
             app_wdf_data <= 'd0;
@@ -367,6 +376,7 @@ module ddr3_test1 #(
 			cnt_r <= cnt_r + 1'b1;
 	end
 
+/* 比較データ読み出し */
     always@(posedge clk or posedge rst)begin
         if(rst)
             comp_data <= 'd0;
@@ -375,6 +385,7 @@ module ddr3_test1 #(
     end
 
  
+ /* データ比較 */
     generate
     genvar uei,uej;
         for(uei=0;uei<4;uei=uei+1)begin:user_err_gen1
