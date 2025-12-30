@@ -10,6 +10,10 @@
    "Type" : "verilog"
   },
   {
+   "Path" : "E:/git/V850/V850/src/Decorder_tb.sv",
+   "Type" : "verilog"
+  },
+  {
    "Path" : "E:/git/V850/V850/src/Executer.sv",
    "Type" : "verilog"
   },
@@ -27,10 +31,6 @@
   },
   {
    "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
-   "Type" : "verilog"
-  },
-  {
-   "Path" : "E:/git/V850/V850/src/Decorder_tb.sv",
    "Type" : "verilog"
   }
  ],

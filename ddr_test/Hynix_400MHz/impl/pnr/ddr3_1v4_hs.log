@@ -1,7 +1,7 @@
-Reading netlist file: "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg"
-Parsing netlist file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg" completed
+Reading netlist file: "E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg"
+Parsing netlist file "E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg" completed
 Processing netlist completed
-Reading constraint file: "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst"
+Reading constraint file: "E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst"
 Physical Constraint parsed completed
 Running placement......
 [10%] Placement Phase 0 completed
@@ -21,10 +21,10 @@ Bitstream generation in progress......
 Bitstream generation completed
 Running power analysis......
 [100%] Power analysis completed
-Generate file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.power.html" completed
-Generate file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.pin.html" completed
-Generate file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.rpt.html" completed
-Generate file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.rpt.txt" completed
-Generate file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.tr.html" completed
-Tue Dec 30 01:53:15 2025
+Generate file "E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.power.html" completed
+Generate file "E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.pin.html" completed
+Generate file "E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.rpt.html" completed
+Generate file "E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.rpt.txt" completed
+Generate file "E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\ddr3_1v4_hs.tr.html" completed
+Tue Dec 30 23:46:35 2025
 

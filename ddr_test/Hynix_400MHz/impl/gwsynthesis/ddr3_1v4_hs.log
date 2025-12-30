@@ -1,19 +1,24 @@
 GowinSynthesis start
 Running parser ...
-Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\button.v'
-Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v'
-Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddrtest.v'
-Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v'
-Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v'
-Undeclared symbol 'error', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":84)
-Undeclared symbol 'sr_req', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":133)
-Undeclared symbol 'ref_req', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":135)
-Undeclared symbol 'ddr_rst', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":176)
-Compiling module 'top'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":1)
-Compiling module 'Gowin_PLL'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v":10)
-Compiling module 'ddr3_test1(ADDR_WIDTH=29)'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddrtest.v":25)
-Compiling module 'D3_400'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31657)
-Compiling module '**'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31656)
+Analyzing Verilog file 'E:\git\V850\ddr_test\Hynix_400MHz\src\button.v'
+Analyzing Verilog file 'E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v'
+Analyzing Verilog file 'E:\git\V850\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v'
+Analyzing Verilog file 'E:\git\V850\ddr_test\Hynix_400MHz\src\top.v'
+Undeclared symbol 'error', assumed default net type 'wire'("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":81)
+Undeclared symbol 'sr_req', assumed default net type 'wire'("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":134)
+Undeclared symbol 'ref_req', assumed default net type 'wire'("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":136)
+Undeclared symbol 'ddr_rst', assumed default net type 'wire'("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":167)
+Analyzing Verilog file 'E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv'
+WARN  (EX3706) : Empty port in module declaration("E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv":37)
+Compiling module 'top'("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":1)
+Compiling module 'Gowin_PLL'("E:\git\V850\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v":10)
+Compiling module 'test(ADDR_WIDTH=29)'("E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv":10)
+WARN  (EX1998) : Net 'bank[2]' does not have a driver("E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv":113)
+WARN  (EX1998) : Net 'row[13]' does not have a driver("E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv":114)
+WARN  (EX1998) : Net 'col[9]' does not have a driver("E:\git\V850\ddr_test\Hynix_400MHz\src\test.sv":115)
+Compiling module 'D3_400'("E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31657)
+Compiling module '**'("E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31656)
+WARN  (EX1998) : Net 'err' does not have a driver("E:\git\V850\ddr_test\Hynix_400MHz\src\top.v":73)
 NOTE  (EX0101) : Current top module is "top"
 [5%] Running netlist conversion ...
 Running device independent optimization ...
@@ -31,6 +36,7 @@ Running technical mapping ...
 [75%] Tech-Mapping Phase 2 completed
 [80%] Tech-Mapping Phase 3 completed
 [90%] Tech-Mapping Phase 4 completed
-[95%] Generate netlist file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg" completed
-[100%] Generate report file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs_syn.rpt.html" completed
+WARN  (NL0002) : The module "~gwmc_rd_data.D3_400" instantiated to "gw_rd_data0" is swept in optimizing("E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31656)
+[95%] Generate netlist file "E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg" completed
+[100%] Generate report file "E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs_syn.rpt.html" completed
 GowinSynthesis finish

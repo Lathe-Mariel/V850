@@ -74,8 +74,6 @@ module ddr3_test1 #(
 
     reg [15:0] error_int1;
     
-	
-
     reg app_rd_data_valid_r;
     reg [APP_DATA_WIDTH-1:0] app_rd_data_r/* synthesis syn_preserve = 1 */;
     reg app_rd_data_valid_rr;
@@ -135,7 +133,6 @@ module ddr3_test1 #(
     localparam RD_ROW_CH                =   7'b0010000;
     localparam WR_COL_CH                =   7'b0100000;//BANK0,ROW0,COL0~1024
     localparam RD_COL_CH                =   7'b1000000;
-
 
     reg [6:0] c_s;
     reg [6:0] n_s;
@@ -316,7 +313,7 @@ module ddr3_test1 #(
                         bank <= bank + 1'b1;
                 end
             end 
-            
+
             WR_ROW_CH            :begin
                 if(app_rdy & wr_data_rdy)begin
                     if(&cnt2)
@@ -368,7 +365,6 @@ module ddr3_test1 #(
         else
             app_wdf_data <= 'd0;
 
-    
     always@(posedge clk or posedge rst)begin
 		if(rst)
 			cnt_r <= 'd0;
@@ -383,7 +379,6 @@ module ddr3_test1 #(
         else
             comp_data <= EYE_MEM_C[cnt_r];
     end
-
  
  /* データ比較 */
     generate
@@ -401,8 +396,6 @@ module ddr3_test1 #(
             end
         end
     endgenerate
-	
-
 	
 	assign error = |error_int1;
 //    assign error = error_int1;

@@ -5,34 +5,34 @@
 1. PnR Messages
 
   <Report Title>: PnR Report
-  <Design File>: C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg
-  <Physical Constraints File>: C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst
-  <Timing Constraints File>: C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.sdc
+  <Design File>: E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg
+  <Physical Constraints File>: E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst
+  <Timing Constraints File>: E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.sdc
   <Tool Version>: V1.9.11.01 (64-bit)
   <Part Number>: GW5AST-LV138FPG676AES
   <Device>: GW5AST-138
   <Device Version>: B
-  <Created Time>:Tue Dec 30 01:53:14 2025
+  <Created Time>:Tue Dec 30 23:46:35 2025
 
 
 2. PnR Details
 
   Running placement:
     Placement Phase 0: CPU time = 0h 0m 3s, Elapsed time = 0h 0m 3s
-    Placement Phase 1: CPU time = 0h 0m 0.138s, Elapsed time = 0h 0m 0.138s
-    Placement Phase 2: CPU time = 0h 0m 2s, Elapsed time = 0h 0m 2s
-    Placement Phase 3: CPU time = 0h 0m 5s, Elapsed time = 0h 0m 5s
-    Total Placement: CPU time = 0h 0m 10s, Elapsed time = 0h 0m 10s
+    Placement Phase 1: CPU time = 0h 0m 0.095s, Elapsed time = 0h 0m 0.094s
+    Placement Phase 2: CPU time = 0h 0m 1s, Elapsed time = 0h 0m 1s
+    Placement Phase 3: CPU time = 0h 0m 4s, Elapsed time = 0h 0m 4s
+    Total Placement: CPU time = 0h 0m 8s, Elapsed time = 0h 0m 8s
  Running routing:
-    Routing Phase 0: CPU time = 0h 0m 0.656s, Elapsed time = 0h 0m 0.656s
-    Routing Phase 1: CPU time = 0h 0m 32s, Elapsed time = 0h 0m 32s
-    Routing Phase 2: CPU time = 0h 0m 0.562s, Elapsed time = 0h 0m 0.562s
+    Routing Phase 0: CPU time = 0h 0m 0.66s, Elapsed time = 0h 0m 0.659s
+    Routing Phase 1: CPU time = 0h 0m 21s, Elapsed time = 0h 0m 21s
+    Routing Phase 2: CPU time = 0h 0m 0.186s, Elapsed time = 0h 0m 0.186s
     Routing Phase 3: CPU time = 0h 0m 0s, Elapsed time = 0h 0m 0s
-    Total Routing: CPU time = 0h 0m 34s, Elapsed time = 0h 0m 34s
+    Total Routing: CPU time = 0h 0m 22s, Elapsed time = 0h 0m 22s
  Generate output files:
-    CPU time = 0h 0m 15s, Elapsed time = 0h 0m 15s
+    CPU time = 0h 0m 9s, Elapsed time = 0h 0m 9s
 
- Total Time and Memory Usage: CPU time = 0h 0m 58s, Elapsed time = 0h 0m 58s, Peak memory usage = 1354MB
+ Total Time and Memory Usage: CPU time = 0h 0m 38s, Elapsed time = 0h 0m 38s, Peak memory usage = 1343MB
 
 
 3. Resource Usage Summary
@@ -40,15 +40,15 @@
   --------------------------------------------------------------------------------
   Resources                   | Usage                               | Utilization
   --------------------------------------------------------------------------------
-  Logic                       | 4180/138240                         |  4%
-    --LUT,ALU,ROM16           | 4180(3681 LUT, 499 ALU, 0 ROM16)    | -
+  Logic                       | 3386/138240                         |  3%
+    --LUT,ALU,ROM16           | 3386(3144 LUT, 242 ALU, 0 ROM16)    | -
     --SSRAM(RAM16)            | 0                                   | -
-  Register                    | 6433/139140                         |  5%
+  Register                    | 5237/139140                         |  4%
     --Logic Register as Latch | 0/138240                            |  0%
-    --Logic Register as FF    | 6432/138240                         |  5%
+    --Logic Register as FF    | 5236/138240                         |  4%
     --I/O Register as Latch   | 0/900                               |  0%
     --I/O Register as FF      | 1/900                               |  <1%
-  CLS                         | 4862/69120                          |  8%
+  CLS                         | 4002/69120                          |  6%
   I/O Port                    | 80/311                              |  26%
   I/O Buf                     | 75                                  | -
     --Input Buf               | 2                                   | -
@@ -102,13 +102,13 @@
   Signal         | Global Clock   | Location
   -------------------------------------------
   clk_d          | PRIMARY        |  PTR0 PTR1 PTR2 PBR1 PBR2
-  test_pt_d      | PRIMARY        |  PTR0 PTR1 PTR2 PBR0 PBR1 PBR2
-  rst_n_d        | LW             |  -
-  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_9| LW             |  -
-  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_12| LW             |  -
-  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_14| LW             |  -
-  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_16| LW             |  -
-  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_18| LW             |  -
+  test_pt_d      | PRIMARY        |  PTR0 PTR1 PTR2 PBR0 PBR1 PBR2 PBR3
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_8| LW             |  -
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_11| LW             |  -
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_13| LW             |  -
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_15| LW             |  -
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_17| LW             |  -
+  u_ddr3/gw3_top/u_ddr_phy_top/gowin_reg_ddr_rst_25| LW             |  -
   memory_clk     | HCLK           | LEFT[4] LEFT[0]
   ===========================================
 

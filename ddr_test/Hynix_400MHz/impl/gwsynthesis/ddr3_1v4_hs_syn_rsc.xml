@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="top" Register="33" Alu="31" Lut="14" T_Register="6325(33)" T_Alu="460(31)" T_Lut="3683(14)" T_Bsram="24(0)">
+<Module name="top" Register="33" Alu="31" Lut="14" T_Register="5140(33)" T_Alu="220(31)" T_Lut="3146(14)" T_Bsram="24(0)">
  <SubModule name="Gowin_PLL_inst"/>
- <SubModule name="u_rd" Register="673" Alu="240" Lut="282" T_Register="673(673)" T_Alu="240(240)" T_Lut="282(282)"/>
- <SubModule name="u_ddr3" Register="5619" Alu="189" Lut="3387" Bsram="24" T_Register="5619(5619)" T_Alu="189(189)" T_Lut="3387(3387)" T_Bsram="24(24)"/>
+ <SubModule name="u_rd" Register="3" Lut="2" T_Register="3(3)" T_Lut="2(2)"/>
+ <SubModule name="u_ddr3" Register="5104" Alu="189" Lut="3130" Bsram="24" T_Register="5104(5104)" T_Alu="189(189)" T_Lut="3130(3130)" T_Bsram="24(24)"/>
 </Module>

@@ -1,9 +1,9 @@
--d C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg
+-d E:\git\V850\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg
 -p GW5AST-138B-FCPBGA676A-1
 -pn GW5AST-LV138FPG676AES
--cst C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst
--cfg C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\pnr\device.cfg
--sdc C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.sdc
+-cst E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.cst
+-cfg E:\git\V850\ddr_test\Hynix_400MHz\impl\pnr\device.cfg
+-sdc E:\git\V850\ddr_test\Hynix_400MHz\src\ddr3_1v4_hs.sdc
 -bit
 -tr
 -ph

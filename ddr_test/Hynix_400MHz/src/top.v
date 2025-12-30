@@ -57,8 +57,6 @@ module top(
     wire                        app_rd_data_valid; 
     wire                        app_rd_data_end;
     wire [256-1:0]              app_rd_data;     //APP_DATA_WIDTH=256
-    
-    
 
 assign  test_pt = clk_x1;
 
@@ -78,7 +76,6 @@ wire clk50m;
 wire init_calib_complete;
 
 wire pll_stop;
-
 reg led;
 
 assign error = ~err;
@@ -96,7 +93,6 @@ always@(posedge clk_x1)begin // clk_x1 CLK from DDR IP （DDR IPから出力さ�
             led_cnt <= led_cnt + 1'b1;
 end
 
-
 Gowin_PLL Gowin_PLL_inst(
 .lock(pll_lock), 
 .clkout0(), 
@@ -110,7 +106,7 @@ Gowin_PLL Gowin_PLL_inst(
 );
 
 /* テストベンチ */
-ddr3_test1  #
+test  #
     (
      .ADDR_WIDTH(29) ,          //ADDR_WIDTH=29
      .APP_DATA_WIDTH(256) ,     //APP_DATA_WIDTH=256
@@ -136,7 +132,7 @@ ddr3_test1  #
     .app_wdf_mask       (app_wdf_mask),
     .app_burst          (app_burst),
     .sr_req             (sr_req),
-    .error              (err),                  // -> board LED
+//    .error              (err),                  // -> board LED
     .ref_req            (ref_req)
     );
 
@@ -164,18 +160,8 @@ ddr3_test1  #
     .sr_ack          (app_sre_act),             // セルフリフレッシュ応答（ DDR3 IP -> ）
     .ref_ack         (app_ref_ack),             // ユーザーリフレッシュ応答（ DDR3 IP -> ）
     .init_calib_complete(init_calib_complete),  // キャリブレーション完了（ DDR3 IP -> ）
-    `ifdef DEBUG_PORT_ENABLE
-    .dbg_vector4_out         (),
-    .dbg_vector3_out         (),
-    .dbg_vector2_out         (), 
-    .dbg_vector1_out         (), 
-    `endif
     .clk_out         (clk_x1),                  // ユーザデザインのクロック（出力）
     .pll_lock        (pll_lock),                // PLLロック(入力) 使わない場合は1にする
-    //.pll_lock        (1'b1), 
-    //`ifdef ECC
-    //.ecc_err         (ecc_err),
-    //`endif
     .burst           (app_burst),               // OTF制御ポート  1:BL8モード,  0:BC4モード. OTFモードでのみ有効 
     // mem interface
     .ddr_rst         (ddr_rst),                 // IP内で使われるグローバルリセット，ユーザ回路にも出力
