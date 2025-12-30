@@ -1,0 +1,36 @@
+GowinSynthesis start
+Running parser ...
+Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\button.v'
+Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v'
+Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddrtest.v'
+Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v'
+Analyzing Verilog file 'C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v'
+Undeclared symbol 'error', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":84)
+Undeclared symbol 'sr_req', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":133)
+Undeclared symbol 'ref_req', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":135)
+Undeclared symbol 'ddr_rst', assumed default net type 'wire'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":176)
+Compiling module 'top'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\top.v":1)
+Compiling module 'Gowin_PLL'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\gowin_pll\gowin_pll.v":10)
+Compiling module 'ddr3_test1(ADDR_WIDTH=29)'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddrtest.v":25)
+Compiling module 'D3_400'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31657)
+Compiling module '**'("C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\src\ddr3_memory_interface\DDR3_400.v":31656)
+NOTE  (EX0101) : Current top module is "top"
+[5%] Running netlist conversion ...
+Running device independent optimization ...
+[10%] Optimizing Phase 0 completed
+[15%] Optimizing Phase 1 completed
+[25%] Optimizing Phase 2 completed
+Running inference ...
+[30%] Inferring Phase 0 completed
+[40%] Inferring Phase 1 completed
+[50%] Inferring Phase 2 completed
+[55%] Inferring Phase 3 completed
+Running technical mapping ...
+[60%] Tech-Mapping Phase 0 completed
+[65%] Tech-Mapping Phase 1 completed
+[75%] Tech-Mapping Phase 2 completed
+[80%] Tech-Mapping Phase 3 completed
+[90%] Tech-Mapping Phase 4 completed
+[95%] Generate netlist file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs.vg" completed
+[100%] Generate report file "C:\Users\n11ak\Downloads\TangMega-138KPro-example-main\TangMega-138KPro-example-main\ddr_test\Hynix_400MHz\impl\gwsynthesis\ddr3_1v4_hs_syn.rpt.html" completed
+GowinSynthesis finish
