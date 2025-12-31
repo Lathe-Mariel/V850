@@ -4,7 +4,7 @@ output logic increment_bit_o,
 output logic[4:0] destination_o,    // number of destination register
 output logic[4:0] destination2_o,   // number of destination2 register
 output logic[9:0] circuit_sel_o,
-input clk,
+input logic clk,
 input logic[24:0] PC_ID_i,             // Virtually [25:1]
 input logic[31:0] GR[31:0],
 input logic[31:0] PSW_i,
@@ -365,6 +365,8 @@ always_ff @(posedge clk)begin
         // JR disp22
     end else if(instruction_ID_i[15:0] == 16'b0000001011100000 && instruction_ID_i[16] == 1'b0)begin            // 0000001011100000 ddddddddddddddd0 DDDDDDDDDDDDDDDD
         // JR disp32
+
+/******** LD ********/
     end else if(instruction_ID_i[10:5] == 6'b111000)begin                                                         // rrrrr111000RRRRR dddddddddddddddd    Format VII
         // LD.B disp16 [reg1], reg2
         reg1_o <= GR[instruction_ID_i[4:0]];                                        // base address
@@ -396,6 +398,7 @@ always_ff @(posedge clk)begin
         // MAC reg1, reg2, reg3, reg4
     end else if(instruction_ID_i[10:5] == 6'b111111 && instruction_ID_i[26:21] == 7'b0011111 && instruction_ID_i[16] == 1'b0)begin    // rrrrr111111RRRRR wwww0011111mmmm0
         // MACU reg1, reg2, reg3, reg4
+/******** MOV ********/
     end else if(instruction_ID_i[10:5] == 6'b000000)begin                                                         // rrrrr000000RRRRR    Format I
         // MOV reg1, reg2    (rrrrr != 00000)
         reg1_o <= GR[instruction_ID_i[4:0]];

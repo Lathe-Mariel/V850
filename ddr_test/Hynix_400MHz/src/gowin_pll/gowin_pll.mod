@@ -1,5 +1,5 @@
 -series GW5AST
--device GW5AST-138B
+-device GW5AST-138
 -device_version B
 -package FCPBGA676A
 -part_number GW5AST-LV138FPG676AES
@@ -7,7 +7,7 @@
 
 -mod_name Gowin_PLL
 -file_name gowin_pll
--path C:/Users/Think/Documents/FPGA_Project/Gowin/ddr_test/src/gowin_pll/
+-path H:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/
 -type PLL_ADV
 -file_type vlg
 -ssc false
