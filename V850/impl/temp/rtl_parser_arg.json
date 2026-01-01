@@ -30,15 +30,15 @@
    "Type" : "verilog"
   },
   {
-   "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
-   "Type" : "verilog"
-  },
-  {
    "Path" : "E:/git/V850/V850/src/ddr3_memory_interface/DDR3_400.v",
    "Type" : "verilog"
   },
   {
    "Path" : "E:/git/V850/V850/src/gowin_pll/gowin_pll.v",
+   "Type" : "verilog"
+  },
+  {
+   "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
    "Type" : "verilog"
   }
  ],

@@ -100,13 +100,13 @@ Decorder inst_Decorder(
 );
 
 logic[24:0] PC_exmem;           // EX -> MEM
-logic[31:0] result_exwb;        // EX -> WB
+logic[31:0] result_exwb;        // EX -> MEM,WB
 logic[31:0] result2_exwb;       // EX -> WB
 logic[4:0] destination_exwb;    // EX -> MEM & WB
 logic[4:0] destination2_exwb;   // EX -> MEM & WB
 logic[31:0] PSW_exwb;           // EX -> WB
 logic[9:0] circuit_sel_exmem;   // EX -> MEM
-logic[31:0] memory_address;     // EX ->
+logic[28:0] memory_address_exmem;     // EX -> MEM
 
 Executer inst_Executer(
     .clk(clk),
@@ -124,7 +124,7 @@ Executer inst_Executer(
     .circuit_sel_i(circuit_sel_idex),
     .circuit_sel_o(circuit_sel_exmem),
     .PC_o(PC_exmem),
-    .memory_address_o(memory_address)
+    .memory_address_o(memory_address_exmem)
 );
 
 logic[31:0] wb_data_memwb;           // MEM -> WB
@@ -133,7 +133,8 @@ logic[4:0] destination_memwb;        // MEM -> WB
 Memory inst_Memory(
     .clk(clk),
     .destination_i(destination_exwb),
-    .memory_address_i(memory_address[28:0]),
+    .memory_address_i(memory_address_exmem[28:0]),
+    .memory_address_o(memory_address),
     .wb_data_o(wb_data_memwb),
     .destination_o(destination_memwb),
     .circuit_sel_i(circuit_sel_exmem),
@@ -142,7 +143,13 @@ Memory inst_Memory(
     .ddr_read_data_valid_i(ddr_read_data_valid),
     .ddr_read_data_end_i(ddr_read_data_end),
     .ddr_enable_o(ddr_en),
-    .ddr_cmd_o(ddr_cmd)
+    .ddr_cmd_o(ddr_cmd),
+
+    .store_data(result_exwb),
+    .ddr_write_enable(ddr_write_en),
+    .ddr_write_rdy(ddr_write_rdy),
+    .ddr_write_data(ddr_write_data),
+    .ddr_write_data_end(ddr_write_data_end)
     
 );
 
@@ -165,6 +172,7 @@ Writeback inst_Writeback(
 
 wire                    ddr_write_en;
 wire  [32-1:0]          app_wdf_mask;      //APP_MASK_WIDTH=16
+wire                    ddr_write_rdy;
 wire                    ddr_write_data_end; 
 wire [256-1:0]          ddr_write_data;    //APP_DATA_WIDTH=256
 logic                   ddr_en;
@@ -175,7 +183,7 @@ wire [29-1:0]           memory_address;    //ADDR_WIDTH=29
 wire                    app_burst;
 wire                    ddr_sre_act;
 wire                    ddr_ref_ack;
-wire                    ddr_write_rdy;
+
 wire                    ddr_cmd_rdy;
 wire                    ddr_read_data_valid; 
 wire                    ddr_read_data_end;

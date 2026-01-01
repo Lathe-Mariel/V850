@@ -143,11 +143,11 @@ always_ff @(posedge clk)begin
         {result2_o, result_o} <= $signed(reg2_i) * $signed(reg1_i);
         destination_o <= destination_EX_i;
         destination2_o <= destination2_EX_i;
-    end else if(circuit_sel_i == 10'b01_0000_0000)begin            // LD.B
-        destination_o <= destination_EX_i;                         // destination register number
+    end else if(circuit_sel_i[9:1] == 9'b01_0000_000)begin            // LD.B
         memory_address_o <= reg1_i + reg2_i;
         circuit_sel_o <= circuit_sel_i;
-
+        destination_o <= destination_EX_i;                         // destination register number
+        result_o <= reg3_i;                                          // byte data which will be stored to memory
     end
 end
 

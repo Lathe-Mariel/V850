@@ -2,23 +2,23 @@
  "Device" : "GW5AST-138B",
  "Files" : [
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
+   "Path" : "E:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
+   "Path" : "E:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/gowin_pll.v",
+   "Path" : "E:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/gowin_pll.v",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/test.sv",
+   "Path" : "E:/git/V850/ddr_test/Hynix_400MHz/src/test.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+   "Path" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
    "Type" : "verilog"
   }
  ],
@@ -26,7 +26,7 @@
 
  ],
  "LoopLimit" : 2000,
- "ResultFile" : "H:/git/V850/ddr_test/Hynix_400MHz/impl/temp/rtl_parser.result",
+ "ResultFile" : "E:/git/V850/ddr_test/Hynix_400MHz/impl/temp/rtl_parser.result",
  "Top" : "top",
  "VerilogStd" : "verilog_2001",
  "VhdlStd" : "vhdl_93"

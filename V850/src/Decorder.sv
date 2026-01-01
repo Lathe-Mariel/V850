@@ -599,8 +599,13 @@ always_ff @(posedge clk)begin
         // SST.H reg2, disp8[ep]
     end else if(instruction_ID_i[10:7] == 4'b1010 && instruction_ID_i[0] == 1'b1)begin                          // rrrrr1010dddddd1
         // SST.W reg2, disp8[ep]
-    end else if(instruction_ID_i[10:5] == 6'b111010)begin                                                         // rrrrr111010RRRRR dddddddddddddddd
+    end else if(instruction_ID_i[10:5] == 6'b111010)begin                                                         // rrrrr111010RRRRR dddddddddddddddd    Format VII
         // ST.B reg2, disp16[reg1]
+        reg1_o <= GR[instruction_ID_i[4:0]];                                        // base address
+        reg2_o <= {{16{instruction_ID_i[31]}}, instruction_ID_i[31:16]};            // imm16 with sign extended
+        reg3_o <= GR[instruction_ID_i[15:11]][7:0];                                 // the byte data which will be wrote
+        circuit_sel_o <= 10'b01_0000_0001;
+
     end else if(instruction_ID_i[15:5] == 11'b00000111100 && instruction_ID_i[19:16] == 4'b1101)begin           // 00000111100RRRRR wwwwwddddddd1101 DDDDDDDDDDDDDDDD
         // ST.B reg3, disp23[reg1]
     end else if(instruction_ID_i[10:5] == 6'b111011 && instruction_ID_i[0] == 1'd0)begin                        // rrrrr111011RRRRR ddddddddddddddd0

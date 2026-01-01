@@ -1,49 +1,49 @@
 [
  {
-  "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
+  "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
   "InstLine" : 1,
   "InstName" : "button",
-  "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
+  "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/button.v",
   "ModuleLine" : 1,
   "ModuleName" : "button"
  },
  {
-  "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+  "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
   "InstLine" : 1,
   "InstName" : "top",
-  "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+  "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
   "ModuleLine" : 1,
   "ModuleName" : "top",
   "SubInsts" : [
    {
-    "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+    "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
     "InstLine" : 96,
     "InstName" : "Gowin_PLL_inst",
-    "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/gowin_pll.v",
+    "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/gowin_pll.v",
     "ModuleLine" : 10,
     "ModuleName" : "Gowin_PLL"
    },
    {
-    "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+    "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
     "InstLine" : 115,
     "InstName" : "u_rd",
-    "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/test.sv",
+    "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/test.sv",
     "ModuleLine" : 10,
     "ModuleName" : "test"
    },
    {
-    "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
+    "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/top.v",
     "InstLine" : 140,
     "InstName" : "u_ddr3",
-    "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
+    "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
     "ModuleLine" : 28315,
     "ModuleName" : "D3_400",
     "SubInsts" : [
      {
-      "InstFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
+      "InstFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
       "InstLine" : 28400,
       "InstName" : "gw3_top",
-      "ModuleFile" : "H:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
+      "ModuleFile" : "E:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
       "ModuleLine" : 10,
       "ModuleName" : "~GW_DDR3_PHY_MC.D3_400"
      }
