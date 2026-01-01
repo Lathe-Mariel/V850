@@ -400,13 +400,3 @@ module ddr3_test1 #(
 	assign error = |error_int1;
 //    assign error = error_int1;
 endmodule
-
-
-
-
-
-
-
-
-
-

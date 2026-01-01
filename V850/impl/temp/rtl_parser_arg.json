@@ -2,43 +2,43 @@
  "Device" : "GW5AST-138C",
  "Files" : [
   {
-   "Path" : "H:/git/V850/V850/V850.sv",
+   "Path" : "E:/git/V850/V850/V850.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Decorder.sv",
+   "Path" : "E:/git/V850/V850/src/Decorder.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Decorder_tb.sv",
+   "Path" : "E:/git/V850/V850/src/Decorder_tb.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Executer.sv",
+   "Path" : "E:/git/V850/V850/src/Executer.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/IFetcher.sv",
+   "Path" : "E:/git/V850/V850/src/IFetcher.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Memory.sv",
+   "Path" : "E:/git/V850/V850/src/Memory.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/Writeback.sv",
+   "Path" : "E:/git/V850/V850/src/Writeback.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/V850/src/tb_Fetcher.sv",
+   "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/ddr3_memory_interface/DDR3_400.v",
+   "Path" : "E:/git/V850/V850/src/ddr3_memory_interface/DDR3_400.v",
    "Type" : "verilog"
   },
   {
-   "Path" : "H:/git/V850/ddr_test/Hynix_400MHz/src/gowin_pll/gowin_pll.v",
+   "Path" : "E:/git/V850/V850/src/gowin_pll/gowin_pll.v",
    "Type" : "verilog"
   }
  ],
@@ -46,7 +46,7 @@
 
  ],
  "LoopLimit" : 2000,
- "ResultFile" : "H:/git/V850/V850/impl/temp/rtl_parser.result",
+ "ResultFile" : "E:/git/V850/V850/impl/temp/rtl_parser.result",
  "Top" : "V850",
  "VerilogStd" : "sysv",
  "VhdlStd" : "vhdl_93"

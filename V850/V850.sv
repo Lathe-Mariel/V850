@@ -71,6 +71,7 @@ logic[24:0] PC_ifid;    // virtually [25:1] ([31:26] is automatically filled by 
 
 IFetcher inst_IFetcher(
     .clk(clk),
+    .rst_n(rst_n),
     .PC_i(),        // when branch??
     .instruction_o(instruction_ifid),
     .PC_o(PC_ifid)  //IF -> ID
@@ -105,6 +106,7 @@ logic[4:0] destination_exwb;    // EX -> MEM & WB
 logic[4:0] destination2_exwb;   // EX -> MEM & WB
 logic[31:0] PSW_exwb;           // EX -> WB
 logic[9:0] circuit_sel_exmem;   // EX -> MEM
+logic[31:0] memory_address;     // EX ->
 
 Executer inst_Executer(
     .clk(clk),
@@ -121,7 +123,8 @@ Executer inst_Executer(
     .PSW_o(PSW_exwb),
     .circuit_sel_i(circuit_sel_idex),
     .circuit_sel_o(circuit_sel_exmem),
-    .PC_o(PC_exmem)
+    .PC_o(PC_exmem),
+    .memory_address_o(memory_address)
 );
 
 logic[31:0] wb_data_memwb;           // MEM -> WB
@@ -130,10 +133,17 @@ logic[4:0] destination_memwb;        // MEM -> WB
 Memory inst_Memory(
     .clk(clk),
     .destination_i(destination_exwb),
-    .memory_address_i(),
+    .memory_address_i(memory_address[28:0]),
     .wb_data_o(wb_data_memwb),
     .destination_o(destination_memwb),
-    .circuit_sel_i(circuit_sel_exmem)
+    .circuit_sel_i(circuit_sel_exmem),
+    .ddr_cmd_rdy_i(ddr_cmd_rdy),
+    .ddr_read_data_o(),
+    .ddr_read_data_valid_i(ddr_read_data_valid),
+    .ddr_read_data_end_i(ddr_read_data_end),
+    .ddr_enable_o(ddr_en),
+    .ddr_cmd_o(ddr_cmd)
+    
 );
 
 
@@ -154,19 +164,19 @@ Writeback inst_Writeback(
 
 
 wire                    ddr_write_en;
-wire  [32-1:0]          app_wdf_mask;    //APP_MASK_WIDTH=16
+wire  [32-1:0]          app_wdf_mask;      //APP_MASK_WIDTH=16
 wire                    ddr_write_data_end; 
 wire [256-1:0]          ddr_write_data;    //APP_DATA_WIDTH=256
-wire                    ddr_en;
-wire [2:0]              ddr_cmd;
-wire [29-1:0]           mem_addr;        //ADDR_WIDTH=29
+logic                   ddr_en;
+wire [2:0]              ddr_cmd;           // read(1) or write(0)
+wire [29-1:0]           memory_address;    //ADDR_WIDTH=29
 //wire                    app_sre_req;
 //wire                    app_ref_req;
 wire                    app_burst;
 wire                    ddr_sre_act;
 wire                    ddr_ref_ack;
 wire                    ddr_write_rdy;
-wire                    ddr_rdy;
+wire                    ddr_cmd_rdy;
 wire                    ddr_read_data_valid; 
 wire                    ddr_read_data_end;
 wire [256-1:0]          ddr_read_data;     //APP_DATA_WIDTH=256
@@ -184,18 +194,18 @@ logic ddr_rst;
     .pll_stop        (pll_stop),
     .clk             (clk),                     // リファレンスクロック（ -> DDR3 IP）
     .rst_n           (rst_n),                   //rst_n システムリセット（ -> DDR3 IP）
-    .cmd_ready       (ddr_rdy),                 // コマンドおよびアドレスを受信可能（ DDR3 IP -> ）
+    .cmd_ready       (ddr_cmd_rdy),             // コマンドおよびアドレスを受信可能（ DDR3 IP -> ）
     .cmd             (ddr_cmd),                 // コマンド 1:read  0:write ( -> DDR3 IP )
     .cmd_en          (ddr_en),                  // アドレスおよびコマンド・イネーブル    1:有効 ( -> DDR3 IP )
-    .addr            (mem_addr),                // アドレス入力  Rank + Bank + Row + Column
-    .wr_data_rdy     (ddr_write_rdy),             // データ受信可能（ DDR3 IP -> ）
-    .wr_data         (ddr_write_data),            // 書き込みデータ
+    .addr            (memory_address),          // アドレス入力  Rank + Bank + Row + Column
+    .wr_data_rdy     (ddr_write_rdy),           // データ受信可能（ DDR3 IP -> ）
+    .wr_data         (ddr_write_data),          // 書き込みデータ
     .wr_data_en      (ddr_write_en),            // 書き込みイネーブル( -> DDR3 IP )
     .wr_data_end     (ddr_write_data_end),             // バースト転送の最終サイクルを示す    1:最終サイクル
     .wr_data_mask    (app_wdf_mask),
-    .rd_data         (ddr_read_data),             // 読み出しデータ( DDR3 IP -> ）
-    .rd_data_valid   (ddr_read_data_valid),       // rd_data 有効（ DDR3 IP -> ）
-    .rd_data_end     (ddr_read_data_end),         // 書き込みの最終サイクルであることを示す（ -> DDR3 IP ）
+    .rd_data         (ddr_read_data),           // 読み出しデータ( DDR3 IP -> ）
+    .rd_data_valid   (ddr_read_data_valid),     // rd_data 有効（ DDR3 IP -> ）
+    .rd_data_end     (ddr_read_data_end),       // 書き込みの最終サイクルであることを示す（ -> DDR3 IP ）
     .sr_req          (1'b0),                    // セルフリフレッシュ要求（ -> DDR3 IP ）
     .ref_req         (1'b0),                    // ユーザーリフレッシュ要求（ -> DDR3 IP ）
     //.zq_req          (1'b0),

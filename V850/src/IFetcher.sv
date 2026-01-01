@@ -1,5 +1,5 @@
 module IFetcher(
-input logic reset,
+input logic rst_n,
 input logic clk,
 input logic[24:0] PC_i,
 input logic[63:0] mem_i,
@@ -17,7 +17,7 @@ logic reg2_en;       // reg2 number is not 0
 assign reg2_en = |{prefetch_buffer[15:11]};    // when OP2(reg2 number) is 0
 
 always_ff @(posedge clk)begin
-    if(reset)begin
+    if(~rst_n)begin
         PC_o <= 0;
         instruction_o <= 0;
         prefetch_buffer <= mem_i;
