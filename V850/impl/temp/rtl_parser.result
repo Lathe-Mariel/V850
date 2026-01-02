@@ -9,7 +9,7 @@
   "SubInsts" : [
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 72,
+    "InstLine" : 75,
     "InstName" : "inst_IFetcher",
     "ModuleFile" : "E:/git/V850/V850/src/IFetcher.sv",
     "ModuleLine" : 1,
@@ -17,7 +17,7 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 87,
+    "InstLine" : 90,
     "InstName" : "inst_Decorder",
     "ModuleFile" : "E:/git/V850/V850/src/Decorder.sv",
     "ModuleLine" : 1,
@@ -25,7 +25,7 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 111,
+    "InstLine" : 114,
     "InstName" : "inst_Executer",
     "ModuleFile" : "E:/git/V850/V850/src/Executer.sv",
     "ModuleLine" : 1,
@@ -33,7 +33,7 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 133,
+    "InstLine" : 136,
     "InstName" : "inst_Memory",
     "ModuleFile" : "E:/git/V850/V850/src/Memory.sv",
     "ModuleLine" : 1,
@@ -41,7 +41,7 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 158,
+    "InstLine" : 161,
     "InstName" : "inst_Writeback",
     "ModuleFile" : "E:/git/V850/V850/src/Writeback.sv",
     "ModuleLine" : 1,
@@ -49,7 +49,7 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 200,
+    "InstLine" : 203,
     "InstName" : "inst_ddr3",
     "ModuleFile" : "E:/git/V850/V850/src/ddr3_memory_interface/DDR3_400.v",
     "ModuleLine" : 28315,
@@ -67,11 +67,47 @@
    },
    {
     "InstFile" : "E:/git/V850/V850/V850.sv",
-    "InstLine" : 245,
+    "InstLine" : 248,
     "InstName" : "Gowin_PLL_inst",
     "ModuleFile" : "E:/git/V850/V850/src/gowin_pll/gowin_pll.v",
     "ModuleLine" : 10,
     "ModuleName" : "Gowin_PLL"
+   }
+  ]
+ },
+ {
+  "InstFile" : "E:/git/V850/V850/src/tb_Fetcher.sv",
+  "InstLine" : 1,
+  "InstName" : "tb_Fetcher",
+  "ModuleFile" : "E:/git/V850/V850/src/tb_Fetcher.sv",
+  "ModuleLine" : 1,
+  "ModuleName" : "tb_Fetcher",
+  "SubInsts" : [
+   {
+    "InstFile" : "E:/git/V850/V850/src/tb_Fetcher.sv",
+    "InstLine" : 29,
+    "InstName" : "inst_IFetcher",
+    "ModuleFile" : "E:/git/V850/V850/src/IFetcher.sv",
+    "ModuleLine" : 1,
+    "ModuleName" : "IFetcher"
+   }
+  ]
+ },
+ {
+  "InstFile" : "E:/git/V850/V850/src/Memory_tb.sv",
+  "InstLine" : 1,
+  "InstName" : "Memory_tb",
+  "ModuleFile" : "E:/git/V850/V850/src/Memory_tb.sv",
+  "ModuleLine" : 1,
+  "ModuleName" : "Memory_tb",
+  "SubInsts" : [
+   {
+    "InstFile" : "E:/git/V850/V850/src/Memory_tb.sv",
+    "InstLine" : 37,
+    "InstName" : "inst_Memory",
+    "ModuleFile" : "E:/git/V850/V850/src/Memory.sv",
+    "ModuleLine" : 1,
+    "ModuleName" : "Memory"
    }
   ]
  }

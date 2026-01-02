@@ -55,6 +55,9 @@ logic[31:0] BSEL;   // selection of register bank
 
 assign fan = 1'b1;
 
+
+assign state_led = result_exwb[5:0];
+
 /*
 assign state_led[5] = ~app_wdf_rdy;
 assign state_led[4] = ~led;
@@ -134,22 +137,22 @@ Memory inst_Memory(
     .clk(clk),
     .destination_i(destination_exwb),
     .memory_address_i(memory_address_exmem[28:0]),
-    .memory_address_o(memory_address),
+    .memory_address_o(ddr_memory_address),
     .wb_data_o(wb_data_memwb),
     .destination_o(destination_memwb),
     .circuit_sel_i(circuit_sel_exmem),
-    .ddr_cmd_rdy_i(ddr_cmd_rdy),
-    .ddr_read_data_o(),
-    .ddr_read_data_valid_i(ddr_read_data_valid),
-    .ddr_read_data_end_i(ddr_read_data_end),
-    .ddr_enable_o(ddr_en),
-    .ddr_cmd_o(ddr_cmd),
+    .memory_cmd_rdy_i(ddr_cmd_rdy),
+    .memory_read_data_i(ddr_read_data),
+    .memory_read_data_valid_i(ddr_read_data_valid),
+    .memory_read_data_end_i(ddr_read_data_end),
+    .memory_enable_o(ddr_en),
+    .memory_cmd_o(ddr_cmd),
 
-    .store_data(result_exwb),
-    .ddr_write_enable(ddr_write_en),
-    .ddr_write_rdy(ddr_write_rdy),
-    .ddr_write_data(ddr_write_data),
-    .ddr_write_data_end(ddr_write_data_end)
+    .store_data_i(result_exwb),
+    .memory_write_enable_o(ddr_write_en),
+    .memory_write_rdy_i(ddr_write_rdy),
+    .memory_write_data_o(ddr_write_data),
+    .memory_write_data_end_o(ddr_write_data_end)
     
 );
 
@@ -177,7 +180,7 @@ wire                    ddr_write_data_end;
 wire [256-1:0]          ddr_write_data;    //APP_DATA_WIDTH=256
 logic                   ddr_en;
 wire [2:0]              ddr_cmd;           // read(1) or write(0)
-wire [29-1:0]           memory_address;    //ADDR_WIDTH=29
+wire [29-1:0]           ddr_memory_address;    //ADDR_WIDTH=29
 //wire                    app_sre_req;
 //wire                    app_ref_req;
 wire                    app_burst;
@@ -205,7 +208,7 @@ logic ddr_rst;
     .cmd_ready       (ddr_cmd_rdy),             // コマンドおよびアドレスを受信可能（ DDR3 IP -> ）
     .cmd             (ddr_cmd),                 // コマンド 1:read  0:write ( -> DDR3 IP )
     .cmd_en          (ddr_en),                  // アドレスおよびコマンド・イネーブル    1:有効 ( -> DDR3 IP )
-    .addr            (memory_address),          // アドレス入力  Rank + Bank + Row + Column
+    .addr            (ddr_memory_address),          // アドレス入力  Rank + Bank + Row + Column
     .wr_data_rdy     (ddr_write_rdy),           // データ受信可能（ DDR3 IP -> ）
     .wr_data         (ddr_write_data),          // 書き込みデータ
     .wr_data_en      (ddr_write_en),            // 書き込みイネーブル( -> DDR3 IP )

@@ -40,6 +40,10 @@
   {
    "Path" : "E:/git/V850/V850/src/tb_Fetcher.sv",
    "Type" : "verilog"
+  },
+  {
+   "Path" : "E:/git/V850/V850/src/Memory_tb.sv",
+   "Type" : "verilog"
   }
  ],
  "IncludePath" : [
