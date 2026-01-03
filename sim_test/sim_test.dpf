@@ -6,7 +6,7 @@ work_dir: .
 design_root_dir: E:\git\V850\sim_test\sim_test_1\src
 simulations:
   - name: sim_test
-    options: '-top tb_Fetcher -L dut +acc+b -waves waves.mxd'
+    options: '-top IFetcher -L dut +acc+b -waves waves.mxd'
 source_files:
   - language: verilog
     path: '"E:\Gowin\Gowin_V1.9.11.01_x64\IDE\simlib\gw5a\prim_sim.v"'

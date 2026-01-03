@@ -77,7 +77,9 @@ IFetcher inst_IFetcher(
     .rst_n(rst_n),
     .PC_i(),        // when branch??
     .instruction_o(instruction_ifid),
-    .PC_o(PC_ifid)  //IF -> ID
+    .PC_o(PC_ifid),  //IF -> ID
+    .memory_data_i(),
+    .memory_address()
 );
 
 logic[31:0] reg1_idex, reg2_idex;    // ID EX
