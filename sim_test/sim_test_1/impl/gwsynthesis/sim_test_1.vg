@@ -1,0 +1,25 @@
+//
+//Written by GowinSynthesis
+//Tool Version "V1.9.12 (64-bit)"
+//Sat Jan  3 19:20:17 2026
+
+//Source file index table:
+//file0 "\C:/Git/V850/sim_test/sim_test_1/src/IFetcher.sv"
+//file1 "\C:/Git/V850/sim_test/sim_test_1/src/tb_Fetcher.sv"
+`timescale 100 ps/100 ps
+module tb_Fetcher (
+
+)
+;
+wire VCC;
+wire GND;
+  VCC VCC_cZ (
+    .V(VCC)
+);
+  GND GND_cZ (
+    .G(GND)
+);
+  GSR GSR (
+    .GSRI(VCC) 
+);
+endmodule /* tb_Fetcher */
