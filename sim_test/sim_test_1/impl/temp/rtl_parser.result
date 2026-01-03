@@ -9,7 +9,7 @@
   "SubInsts" : [
    {
     "InstFile" : "C:/Git/V850/sim_test/sim_test_1/src/tb_Fetcher.sv",
-    "InstLine" : 15,
+    "InstLine" : 7,
     "InstName" : "inst_IFetcher",
     "ModuleFile" : "C:/Git/V850/sim_test/sim_test_1/src/IFetcher.sv",
     "ModuleLine" : 1,
