@@ -14,14 +14,20 @@ logic[63:0] prefetch_buffer;    //
 
 logic reg2_en;       // reg2 number is not 0
 
+logic test1;
+logic[1:0] test2;
+
 assign reg2_en = |{prefetch_buffer[15:11]};    // when OP2(reg2 number) is 0
 
-always @(posedge clk)begin
+always_ff @(posedge clk)begin
     if(~rst_n)begin
-        PC_o <= 0;
+        PC_o <= 25'd0;
         next_fetch = 0;
         instruction_o <= 0;
         prefetch_buffer <= mem_i;
+
+        test1 <= 1'b1;
+        test2 <= 0;
     end else begin
 //        PC_o <= PC_o + next_fetch;
         if(prefetch_buffer[10:9] == 2'b11)begin
@@ -56,6 +62,9 @@ always @(posedge clk)begin
                 next_fetch = 3'd1;
                 PC_o <= PC_o + 25'd1;
                 prefetch_buffer <= mem_i;
+
+                test1 <= 1'b0;
+                test2 <= test2 + test1;
 
             end
         end
