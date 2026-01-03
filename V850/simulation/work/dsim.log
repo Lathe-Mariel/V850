@@ -1,4 +1,4 @@
-=N:[UsageMeter (2026-01-03 17:06:51 “Œ‹ (•W€))] usage server initial connection
+=N:[UsageMeter (2026-01-03 18:09:25 “Œ‹ (•W€))] usage server initial connection
 =N:[License] 
 Licensed for Altair DSim Cloud.
 =N:[License] New lease granted.
@@ -19,7 +19,7 @@ Building models...
 PLI/VPI access: +b 
 Simulation time precision is 1ns.
   [1/5] module $root: 116 functions, 273 basic blocks
-  [4/5] module tb_Fetcher: 50 functions, 200 basic blocks
+  [4/5] module tb_Fetcher: 19 functions, 138 basic blocks
 Linking image.so...
 Using default typical min/typ/max.
 =S:Begin run-time elaboration and static initialization...
