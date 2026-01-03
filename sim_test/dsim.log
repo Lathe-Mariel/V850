@@ -1,0 +1,37 @@
+=N:[UsageMeter (2026-01-03 19:43:37 ìåãû (ïWèÄéû))] usage server initial connection
+=N:[License] 
+Licensed for Altair DSim Cloud.
+=N:[License] New lease granted.
+Analyzing...
+Elaborating...
+  Top-level modules:
+    $unit
+    tb_Fetcher
+  Found 5 unique specialization(s) of 5 design element(s).
+=W:[AlwaysFFNba]:
+    The following variables in always_ff blocks are not written    
+    using non-blocking assignments:                                
+
+    E:\git\V850\sim_test\sim_test_1\src\IFetcher.sv:22:1    next_fetch    
+
+Optimizing...
+Building models...
+PLI/VPI access: +b 
+Simulation time precision is 1ns.
+  [1/5] module $root: 116 functions, 273 basic blocks
+  [2/5] module $pkgs: 1 functions, 2 basic blocks
+  [3/5] CU scope $unit: 1 functions, 2 basic blocks
+  [4/5] module tb_Fetcher: 12 functions, 114 basic blocks
+  [5/5] package std: 23 functions, 64 basic blocks
+Linking image.so...
+Using default typical min/typ/max.
+=S:Begin run-time elaboration and static initialization...
+=N:[dumpMXD] preparing MXD dump to 'waves.mxd'.
+=N:[dump] Dump started at time 0
+=N:Starting event scheduler...
+=N:[dumpMXD] closing MXD dump
+=T:Simulation terminated by $finish at time 300 (E:\git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv:71);
+Run directory: E:\git\V850\sim_test
+  System timescale is 1ns / 1ns
+  Altair DSim version: 2026.0.0 (b:R #c:127 h:14cc828913 os:msys2_)
+  Random seed: (defaulted to 1)
