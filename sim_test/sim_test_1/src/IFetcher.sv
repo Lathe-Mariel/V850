@@ -6,8 +6,17 @@ output logic[24:0] PC_o
 
 logic rst_n;
 logic clk;
-logic[2:0] reset_counter;
-logic test;
+//logic[2:0] reset_counter;
+//logic test;
+
+always_ff @(posedge clk)begin
+    if(~rst_n)begin
+        PC_o <= 0;
+    end else begin
+        PC_o <= PC_o + 25'b1;
+    end
+end
+/*
 
 always_ff @(posedge clk)begin
     if(reset_counter < 3'd4)begin
@@ -27,6 +36,7 @@ always @(posedge clk)begin
         test <= 1'b0;
     end
 end
+*/
 
 initial begin
 

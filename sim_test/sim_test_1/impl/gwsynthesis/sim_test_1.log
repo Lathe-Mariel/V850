@@ -1,61 +1,9 @@
 GowinSynthesis start
 Running parser ...
-Analyzing Verilog file 'C:\Git\V850\sim_test\sim_test_1\src\IFetcher.sv'
-Analyzing Verilog file 'C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv'
-Compiling module 'tb_Fetcher'("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":1)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":16)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":17)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":18)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":19)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":20)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":21)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":22)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":23)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":24)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":25)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":26)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":27)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":28)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":29)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":30)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":31)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":32)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":33)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":34)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":35)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":36)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":37)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":39)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":40)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":41)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":42)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":43)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":44)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":45)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":46)
-WARN  (EX2629) : Delay control is not supported for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":47)
-WARN  (EX3858) : System task 'finish' is ignored for synthesis("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":49)
-WARN  (EX3780) : Using initial value of 'reset' since it is never assigned("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":51)
-Compiling module 'IFetcher'("C:\Git\V850\sim_test\sim_test_1\src\IFetcher.sv":1)
-NOTE  (EX0101) : Current top module is "tb_Fetcher"
-WARN  (EX0203) : Top module "tb_Fetcher" has no ports("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":1)
-[5%] Running netlist conversion ...
-Running device independent optimization ...
-[10%] Optimizing Phase 0 completed
-[15%] Optimizing Phase 1 completed
-[25%] Optimizing Phase 2 completed
-Running inference ...
-[30%] Inferring Phase 0 completed
-[40%] Inferring Phase 1 completed
-[50%] Inferring Phase 2 completed
-[55%] Inferring Phase 3 completed
-Running technical mapping ...
-[60%] Tech-Mapping Phase 0 completed
-[65%] Tech-Mapping Phase 1 completed
-[75%] Tech-Mapping Phase 2 completed
-[80%] Tech-Mapping Phase 3 completed
-[90%] Tech-Mapping Phase 4 completed
-WARN  (NL0002) : The module "IFetcher" instantiated to "inst_IFetcher" is swept in optimizing("C:\Git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":11)
-[95%] Generate netlist file "C:\Git\V850\sim_test\sim_test_1\impl\gwsynthesis\sim_test_1.vg" completed
-[100%] Generate report file "C:\Git\V850\sim_test\sim_test_1\impl\gwsynthesis\sim_test_1_syn.rpt.html" completed
+Analyzing Verilog file 'E:\git\V850\sim_test\sim_test_1\src\IFetcher.sv'
+Analyzing Verilog file 'E:\git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv'
+ERROR (EX3990) : Cannot find port 'clk' on this module("E:\git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":8)
+'IFetcher' is declared here("E:\git\V850\sim_test\sim_test_1\src\IFetcher.sv":1)
+ERROR (EX3990) : Cannot find port 'rst_n' on this module("E:\git\V850\sim_test\sim_test_1\src\tb_Fetcher.sv":9)
+'IFetcher' is declared here("E:\git\V850\sim_test\sim_test_1\src\IFetcher.sv":1)
 GowinSynthesis finish
