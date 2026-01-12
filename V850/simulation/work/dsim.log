@@ -1,4 +1,4 @@
-=N:[UsageMeter (2026-01-04 04:00:54 ìåãû (ïWèÄéû))] usage server initial connection
+=N:[UsageMeter (2026-01-12 19:42:50 ìåãû (ïWèÄéû))] usage server initial connection
 =N:[License] 
 Licensed for Altair DSim Cloud.
 =N:[License] New lease granted.
@@ -18,8 +18,9 @@ Optimizing...
 Building models...
 PLI/VPI access: +b 
 Simulation time precision is 1ns.
+  [1/6] module $root: 114 functions, 263 basic blocks
   [4/6] module tb_Fetcher: 9 functions, 77 basic blocks
-  [6/6] module IFetcher: 11 functions, 71 basic blocks
+  [6/6] module IFetcher: 11 functions, 81 basic blocks
 Linking image.so...
 Using default typical min/typ/max.
 =S:Begin run-time elaboration and static initialization...
@@ -27,7 +28,7 @@ Using default typical min/typ/max.
 =N:[dump] Dump started at time 0
 =N:Starting event scheduler...
 =N:[dumpMXD] closing MXD dump
-=T:Simulation terminated by $finish at time 1260 (E:\git\V850\V850\src\tb_Fetcher.sv:68);
+=T:Simulation terminated by $finish at time 1260 (E:\git\V850\V850\src\tb_Fetcher.sv:76);
 Run directory: E:\git\V850\V850\simulation\work
   System timescale is 1ns / 1ns
   Altair DSim version: 2026.0.0 (b:R #c:127 h:14cc828913 os:msys2_)

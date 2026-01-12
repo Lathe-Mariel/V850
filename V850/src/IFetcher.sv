@@ -69,7 +69,7 @@ always_ff @(posedge clk)begin
         ACTIVE:begin
 //        PC_o <= PC_o + next_fetch;
           if(prefetch_buffer[10:9] == 2'b11)begin
-            if(reg2_en && (prefetch_buffer[8] + prefetch_buffer[7] + prefetch_buffer[6]) == 1'b0)begin
+            if(reg2_en || prefetch_buffer[8:6] == 3'b001 || prefetch_buffer[8:6] == 3'b001 ||(prefetch_buffer[8:6] == 3'b110 && prefetch_buffer[16] == 1'b0)||(prefetch_buffer[8:6] == 3'b110 && prefetch_buffer[19:16] == 4'b0001))begin
                  // 32bit inst
                 instruction_o <= prefetch_buffer[31:0];
 
