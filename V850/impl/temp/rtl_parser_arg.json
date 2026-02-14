@@ -22,11 +22,19 @@
    "Type" : "verilog"
   },
   {
+   "Path" : "E:/git/V850/V850/src/IOBus.sv",
+   "Type" : "verilog"
+  },
+  {
    "Path" : "E:/git/V850/V850/src/Memory.sv",
    "Type" : "verilog"
   },
   {
    "Path" : "E:/git/V850/V850/src/Memory_tb.sv",
+   "Type" : "verilog"
+  },
+  {
+   "Path" : "E:/git/V850/V850/src/V850_tb.sv",
    "Type" : "verilog"
   },
   {

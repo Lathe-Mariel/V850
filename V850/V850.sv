@@ -21,7 +21,9 @@ output logic[4-1:0]      ddr_dm,         //DM_WIDTH=2
 inout  wire[32-1:0]     ddr_dq,         //DQ_WIDTH=32
 inout  wire[4-1:0]      ddr_dqs,        //DQS_WIDTH=2
 inout  wire[4-1:0]      ddr_dqs_n,      //DQS_WIDTH=2
-output logic[5:0]        state_led
+output logic[5:0]        state_led,
+//input logic[24:0] bus_address,
+//input logic[7:0] bus_data
 );
 
 

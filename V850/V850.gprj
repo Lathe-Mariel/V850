@@ -10,8 +10,10 @@
         <File path="src/Decorder_tb.sv" type="file.verilog" enable="1"/>
         <File path="src/Executer.sv" type="file.verilog" enable="1"/>
         <File path="src/IFetcher.sv" type="file.verilog" enable="1"/>
+        <File path="src/IOBus.sv" type="file.verilog" enable="1"/>
         <File path="src/Memory.sv" type="file.verilog" enable="1"/>
         <File path="src/Memory_tb.sv" type="file.verilog" enable="1"/>
+        <File path="src/V850_tb.sv" type="file.verilog" enable="1"/>
         <File path="src/Writeback.sv" type="file.verilog" enable="1"/>
         <File path="src/ddr3_memory_interface/DDR3_400.v" type="file.verilog" enable="1"/>
         <File path="src/gowin_pll/gowin_pll.v" type="file.verilog" enable="1"/>
